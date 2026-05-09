@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 MITAL Online Sales Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0C96A;
+    --gold-dark: #8B6914;
+    --dark: #0A0A0F;
+    --dark2: #111118;
+    --dark3: #1A1A24;
+    --dark4: #22222E;
+    --text: #E8E4D8;
+    --text-muted: #8A8680;
+    --accent: #E85D26;
+    --green: #2ECC71;
+    --border: rgba(201,168,76,0.2);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Golos Text', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+    opacity:0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(232,93,38,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    position: relative;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(0.8); }
+  }
+  .hero h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    position: relative;
+    animation: fadeUp 0.8s 0.1s ease both;
+    max-width: 900px;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 580px;
+    margin: 1.5rem auto 0;
+    animation: fadeUp 0.8s 0.2s ease both;
+    position: relative;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin: 3rem auto 0;
+    position: relative;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #000;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.4);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 600px;
+    line-height: 1.8;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* GOALS */
+  .goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+  .goal-card {
+    background: var(--dark2);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.3s;
+  }
+  .goal-card:hover { background: var(--dark3); }
+  .goal-icon { font-size: 2rem; }
+  .goal-text { font-size: 0.95rem; font-weight: 500; }
+
+  /* WEEKS */
+  .weeks-wrapper { margin-top: 3rem; }
+  .week-block {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background: var(--dark2);
+  }
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: var(--dark3);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .week-header:hover { background: var(--dark4); }
+  .week-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .week-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .week-toggle { margin-left: auto; color: var(--gold); font-size: 1.2rem; transition: transform 0.3s; }
+  .week-body { padding: 1.5rem 2rem; }
+  .chapter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .chapter:last-child { border-bottom: none; }
+  .chapter-icon { color: var(--gold); font-size: 1.1rem; min-width: 24px; }
+  .chapter-name { font-size: 0.95rem; }
+  .chapter-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* MODULES */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .module-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .module-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .module-header {
+    padding: 1.5rem;
+    background: var(--dark3);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .module-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    min-width: 50px;
+  }
+  .module-info {}
+  .module-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .module-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+    line-height: 1.3;
+  }
+  .module-body { padding: 1.5rem; }
+  .module-lessons { list-style: none; }
+  .module-lessons li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .module-lessons li:last-child { border-bottom: none; }
+  .module-lessons li::before {
+    content: '→';
+    color: var(--gold);
+    font-size: 0.8rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .module-footer {
+    padding: 1rem 1.5rem;
+    background: rgba(201,168,76,0.04);
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* FORMULA */
+  .formula-section { background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .formula-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+  .formula-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 3rem 0;
+    padding: 2.5rem 3rem;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .formula-item {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
+  .formula-op { color: var(--text-muted); font-size: 1.5rem; }
+  .formula-eq { font-size: 1.5rem; }
+
+  /* SCHEDULE */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .schedule-item {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+  .schedule-item:hover {
+    border-color: rgba(201,168,76,0.5);
+    background: var(--dark3);
+  }
+  .schedule-time {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .schedule-task {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  /* SCRIPTS */
+  .scripts-section { background: var(--dark2); }
+  .script-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .script-header {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .script-header:hover { background: rgba(201,168,76,0.04); }
+  .script-emoji { font-size: 1.3rem; }
+  .script-goal {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .script-tag {
+    margin-left: auto;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+  }
+  .script-body { padding: 0 1.5rem 1.5rem; }
+  .script-dialogue {
+    background: var(--dark4);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .dialogue-line {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .dialogue-line:last-child { margin-bottom: 0; }
+  .dialogue-role {
+    font-weight: 600;
+    min-width: 80px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .dialogue-role.mijoz { color: var(--text-muted); }
+
+  /* RULES */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .rule-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .rule-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .rule-card:hover { border-color: rgba(201,168,76,0.4); }
+  .rule-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .rule-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .rule-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* CAREER */
+  .career-path {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 3rem;
+    position: relative;
+  }
+  .career-path::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .career-step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.5rem 0;
+  }
+  .career-dot {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--dark3);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+  .career-step:hover .career-dot {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+  .career-info {}
+  .career-role {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .career-cond { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+  /* KPI */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+  .kpi-card {
+    background: var(--dark2);
+    padding: 2rem;
+    text-align: center;
+    transition: background 0.3s;
+  }
+  .kpi-card:hover { background: var(--dark3); }
+  .kpi-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .kpi-name {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .kpi-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* EXAM SECTION */
+  .exam-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .exam-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(232,93,38,0.06) 0%, transparent 70%);
+  }
+  .exam-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--dark2);
+    border: 1px solid rgba(232,93,38,0.3);
+    border-radius: 12px;
+    padding: 3rem;
+    position: relative;
+  }
+  .exam-icon { font-size: 4rem; margin-bottom: 1.5rem; }
+  .exam-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .exam-desc { color: var(--text-muted); margin-bottom: 2rem; }
+  .btn-exam {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--accent), #C44B1E);
+    color: #fff;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 1rem 2.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-exam:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(232,93,38,0.4);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .footer-text { color: var(--text-muted); font-size: 0.85rem; }
+
+  /* TABS */
+  .tabs { margin-top: 3rem; }
+  .tab-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Golos Text', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+  .tab-btn.active {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* TIPS */
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .tip-card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  .tip-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .tip-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  .tip-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+  .tip-example {
+    margin-top: 0.75rem;
+    background: var(--dark4);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .check { color: var(--green); font-size: 1rem; flex-shrink: 0; }
+  .checklist li .cross { color: var(--accent); font-size: 1rem; flex-shrink: 0; }
+
+  /* ALERT BOX */
+  .alert {
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-stats { gap: 1.5rem; }
+    .stat-num { font-size: 1.5rem; }
+    .formula-box { padding: 1.5rem; }
+    .formula-item { font-size: 1.1rem; }
+    .career-path::before { display: none; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ===== MEDIA MANAGER ===== */
+  .media-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    padding: 0.8rem 1.4rem;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 8px 30px rgba(201,168,76,0.5);
+    transition: all 0.3s;
+  }
+  .media-fab:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(201,168,76,0.6);
+  }
+  .media-fab .fab-dot {
+    width: 8px; height: 8px;
+    background: #000;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  /* OVERLAY */
+  .media-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .media-overlay.open { display: flex; }
+
+  /* PANEL */
+  .media-panel {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: panelIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes panelIn {
+    from { opacity:0; transform: scale(0.92) translateY(20px); }
+    to { opacity:1; transform: none; }
+  }
+  .media-panel::-webkit-scrollbar { width: 4px; }
+  .media-panel::-webkit-scrollbar-track { background: var(--dark3); }
+  .media-panel::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+
+  .panel-header {
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--dark2);
+    z-index: 2;
+  }
+  .panel-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .panel-close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .panel-close:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+
+  .panel-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .panel-tab {
+    padding: 0.85rem 1.2rem;
+    border: none;
+    background: transparent;
+    font-family: 'Golos Text', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+  .panel-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .panel-tab:hover:not(.active) { color: var(--text); }
+
+  .panel-body { padding: 2rem; }
+  .panel-section { display: none; }
+  .panel-section.active { display: block; }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.04);
+  }
+  .upload-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .upload-title { font-family: 'Unbounded', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .upload-hint { font-size: 0.8rem; color: var(--text-muted); }
+  .upload-hint span { color: var(--gold); }
+
+  /* MEDIA GRID */
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .media-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--dark3);
+    position: relative;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .media-item:hover { border-color: rgba(201,168,76,0.5); transform: translateY(-2px); }
+  .media-item img, .media-item video {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+  }
+  .media-item-info {
+    padding: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .media-type-badge {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .media-item-actions {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    display: flex;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .media-item:hover .media-item-actions { opacity: 1; }
+  .media-action-btn {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .media-action-btn.copy { background: rgba(201,168,76,0.9); color: #000; }
+  .media-action-btn.del { background: rgba(232,93,38,0.9); color: #fff; }
+  .media-action-btn:hover { transform: scale(1.1); }
+  .media-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .media-empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+  /* EMBED HELPER */
+  .embed-helper { margin-top: 0; }
+  .embed-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .embed-tab {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Golos Text', sans-serif;
+  }
+  .embed-tab.active { background: rgba(201,168,76,0.12); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+
+  .embed-form { display: none; }
+  .embed-form.active { display: block; }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'Golos Text', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--gold); }
+  .form-select option { background: var(--dark2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+  .preview-box {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .preview-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .preview-code {
+    background: var(--dark4);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: var(--gold-light);
+    word-break: break-all;
+    line-height: 1.6;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  .copy-code-btn {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.2rem;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-code-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+
+  /* SECTION SELECTOR */
+  .section-selector { margin-top: 1.5rem; }
+  .section-select-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .section-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .section-chip {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  .section-chip:hover, .section-chip.active {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* NOTIF */
+  .notif {
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+    z-index: 9999;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transform: translateX(200%);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    max-width: 300px;
+  }
+  .notif.show { transform: translateX(0); }
+
+  /* COUNTER BADGE */
+  .fab-count {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 900;
+    border-radius: 100px;
+    padding: 0.1rem 0.4rem;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">🎓 MITAL ACADEMY</a>
+    <ul class="nav-links">
+      <li><a href="#kurs">Курс</a></li>
+      <li><a href="#modullar">Модуллар</a></li>
+      <li><a href="#skriptlar">Скриптлар</a></li>
+      <li><a href="#karyera">Карьера</a></li>
+      <li><a href="#test">Тест</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">🇩🇪 Германия сифати · Ўзбекистон #1</div>
+  <h1>MITAL <span>Online</span><br>Sales Academy</h1>
+  <p class="hero-sub">Агентлар учун тўлиқ онлайн ўқув тизими. 14–21 кунда профессионал B2B сотувчига айлан.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">8</span>
+      <span class="stat-label">Модул</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Ҳафта</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">40+</span>
+      <span class="stat-label">Дарс</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Натижа</span>
+    </div>
+  </div>
+  <div class="hero-cta">
+    <a href="#modullar" class="btn-primary">📚 Дарсларни бошлаш</a>
+    <a href="#test" class="btn-secondary">📝 Имтиҳон топшириш</a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GOALS -->
+<section class="section reveal" id="kurs">
+  <div class="section-label">📌 Курс мақсади</div>
+  <h2 class="section-title">14–21 кунда<br>профессионалга айлан</h2>
+  <p class="section-desc">Бу курс орқали сен MITAL жамоасининг тўлиқ қуролланган агентига айланасан.</p>
+  <div class="goals-grid">
+    <div class="goal-card">
+      <div class="goal-icon">🛢</div>
+      <div class="goal-text">Мотор мойни 100% тушунади</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">🤝</div>
+      <div class="goal-text">B2B сотади ва ҳамкорлик қуради</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">💰</div>
+      <div class="goal-text">Қарзни назорат қилади</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">🎯</div>
+      <div class="goal-text">KPI ни тўлиқ бажаради</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">📊</div>
+      <div class="goal-text">CRM ва маршрут тузади</div>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">🏆</div>
+      <div class="goal-text">TOP агентга айланади</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 3 WEEKS -->
+<section class="section reveal">
+  <div class="section-label">🗓 Курс тузилмаси</div>
+  <h2 class="section-title">3 ҳафталик<br>ўқув дастури</h2>
+  <div class="weeks-wrapper">
+    <div class="week-block">
+      <div class="week-header" onclick="toggleWeek(this)">
+        <span class="week-num">1-ҲАФТА</span>
+        <span class="week-title">БАЗА — Асосий билимлар</span>
+        <span class="week-toggle">▼</span>
+      </div>
+      <div class="week-body">
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">1-БОБ: MITAL ва бозор — компания тарихи, маҳсулот устунликлари</span><span class="chapter-badge">Видео + PDF</span></div>
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">2-БОБ: Мотор мой техникаси — таркиб, стандартлар, вязкость</span><span class="chapter-badge">Видео + Тест</span></div>
+        <div class="chapter"><span class="chapter-icon">✅</span><span class="chapter-name">Ҳафталик тест — 1-ҳафта матерaлларини текшириш</span><span class="chapter-badge">Google Form</span></div>
+      </div>
+    </div>
+    <div class="week-block">
+      <div class="week-header" onclick="toggleWeek(this)">
+        <span class="week-num">2-ҲАФТА</span>
+        <span class="week-title">САВДО — B2B ва Скриптлар</span>
+        <span class="week-toggle">▼</span>
+      </div>
+      <div class="week-body">
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">3-БОБ: B2B мижозлар — СТО, дўкон, таксопарк психологияси</span><span class="chapter-badge">Видео</span></div>
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">4-БОБ: Савдо скриптлари — эътироз, ёпиш, follow-up техникалари</span><span class="chapter-badge">Видео + Амалиёт</span></div>
+        <div class="chapter"><span class="chapter-icon">🎤</span><span class="chapter-name">Роль ўйин — Супервайзер билан реал мижоз симуляцияси</span><span class="chapter-badge">Практика</span></div>
+      </div>
+    </div>
+    <div class="week-block">
+      <div class="week-header" onclick="toggleWeek(this)">
+        <span class="week-num">3-ҲАФТА</span>
+        <span class="week-title">НАЗОРАТ — Дебиторка, CRM, Менталитет</span>
+        <span class="week-toggle">▼</span>
+      </div>
+      <div class="week-body">
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">6-БОБ: Дебиторка — қарзни назорат қилиш ва ундириш</span><span class="chapter-badge">Видео</span></div>
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">7-БОБ: Режа/CRM — кунлик маршрут, вақт менежменти</span><span class="chapter-badge">Видео + Excel</span></div>
+        <div class="chapter"><span class="chapter-icon">📘</span><span class="chapter-name">8-БОБ: Менталитет — ТОП агент руҳияти ва психологик чидамлилик</span><span class="chapter-badge">Видео</span></div>
+        <div class="chapter"><span class="chapter-icon">🏆</span><span class="chapter-name">ЯКУНИЙ ЭКЗАМЕН — Барча модуллар бўйича тест</span><span class="chapter-badge">Google Form</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MODULES -->
+<section class="section reveal" id="modullar">
+  <div class="section-label">📚 Модуллар</div>
+  <h2 class="section-title">8 та тўлиқ модул</h2>
+  <p class="section-desc">Ҳар бир модул — амалий билим, реал скриптлар ва синаладиган тест билан тугайди.</p>
+  <div class="modules-grid">
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">01</div>
+        <div class="module-info">
+          <div class="module-tag">30–40 дақиқа · Кириш</div>
+          <div class="module-title">MITAL Фалсафаси ва Компания</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: Хуш келибсиз — MITAL жамоасига кириш</li>
+          <li>2-ДАРС: MITAN KIM? — Германия, 1921 йил тарих, "Made in Germany"</li>
+          <li>3-ДАРС: Агентнинг роли — компания юзи, ҳамкорлик</li>
+          <li>4-ДАРС: Карьера йўли — Агент → ТОП → Супервайзер → РОП</li>
+          <li>5-ДАРС: Курс қоидалари — видео, тест, практика</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Компанияни тушунади, мақсад қўяди, руҳланади</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">02</div>
+        <div class="module-info">
+          <div class="module-tag">Техника · Эксперт даражаси</div>
+          <div class="module-title">Мотор Мой Техникаси</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: Мотор мой нима? — вазифалар, таъсир</li>
+          <li>2-ДАРС: Мой таркиби — база мой, присадкалар, турлар</li>
+          <li>3-ДАРС: ТОП 4 присадка — Lubrizol, Infinium, Afton, Chevron</li>
+          <li>4-ДАРС: Стандартлар — API, ACEA, ILSAC — нима ва нима учун</li>
+          <li>5-ДАРС: SAE Вязкость — 5W-30, 10W-40 фарқи ва танлаш</li>
+          <li>Бонус: Мой фильтри ва антифриз ҳақида</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Техникада ишончли, мижозга маслаҳат беради</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">03</div>
+        <div class="module-info">
+          <div class="module-tag">B2B · Мижоз психологияси</div>
+          <div class="module-title">B2B Мижозлар Билан Ишлаш</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: B2B нима? — СТО, дўкон, таксопарк</li>
+          <li>2-ДАРС: Дўкон эгаси vs Уста психологияси — фарқли тактикалар</li>
+          <li>3-ДАРС: Ишончни қозонишнинг 4 калити — кўзгу, social proof</li>
+          <li>4-ДАРС: Биринчи учрашув скрипти</li>
+          <li>5-ДАРС: Савол бериш санъати — 5 асосий савол</li>
+          <li>6-ДАРС: Тақдимот — муаммо → ечим → фойда формуласи</li>
+          <li>7-ДАРС: Узоқ муддатли ҳамкорлик тизими</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Ишончли гапиради, катта мижозни олади</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">04</div>
+        <div class="module-info">
+          <div class="module-tag">Скриптлар · Ёпиш техникаси</div>
+          <div class="module-title">Савдо Скриптлари ва Ёпиш</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: Скрипт нима? — йўл харитаси принципи</li>
+          <li>2-ДАРС: Биринчи қўнғироқ — учрашув тайинлаш скрипти</li>
+          <li>3-ДАРС: Эътироз — сотувнинг бошланиши (4 қадам формула)</li>
+          <li>4-ДАРС: Сотувни ёпиш — 5 та техника (альтернатив, Сократ, дефицит...)</li>
+          <li>5-ДАРС: Сотувни ўлдирадиган 5 та критик хато</li>
+          <li>6-ДАРС: Катта мижозларни ёпиш</li>
+          <li>7-ДАРС: Follow-up — 3–5–7 кун қоидаси</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Қўрқмай сотади, эътирозни енгади</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">05</div>
+        <div class="module-info">
+          <div class="module-tag">Нарх · Музокара</div>
+          <div class="module-title">Нарх, Акция ва Музокара</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: Нарх психологияси — қиймат сотиш, "нарх сэндвичи"</li>
+          <li>2-ДАРС: Акция ва чегирмалар — "Учбурчак" қоидаси</li>
+          <li>3-ДАРС: Нимани ўрган — акция турлари (10+1, бепул сервис)</li>
+          <li>4-ДАРС: Музокаралар — "Ҳа" жавобини олиш усули</li>
+          <li>5-ДАРС: Катта мижоз — тест режимидан ҳамкорликка</li>
+          <li>6-ДАРС: Нархни ҳимоя қилиш — кейс, факт, мижоз фикри</li>
+          <li>7-ДАРС: Қийин мижозлар — психологик портретлар ва дavolар</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Арзонлаштирмайди, фойда сақлайди</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">06</div>
+        <div class="module-info">
+          <div class="module-tag">Дебиторка · Қарз назорати</div>
+          <div class="module-title">Дебиторка ва Қарз Назорати</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: Дебиторка нима? — сотув ≠ пул, хавф ва таъриф</li>
+          <li>2-ДАРС: Қарз бериш қоидалари — 5 фильтр</li>
+          <li>3-ДАРС: Тўлов шартномаси — ҳужжат, муддат, жарима</li>
+          <li>4-ДАРС: Назорат тизими — рўйхат, календар, эслатма</li>
+          <li>5-ДАРС: Пулни ундириш — 3 босқичли скрипт</li>
+          <li>6-ДАРС: Қийин қарздорлар — "жавоб бермайди", "ваъдачи"</li>
+          <li>7-ДАРС: Реструктуризация — "Сумма → Бўлиб → Сана" формуласи</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Қарзни назорат қилади, пулни олади</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">07</div>
+        <div class="module-info">
+          <div class="module-tag">CRM · Маршрут · Вақт</div>
+          <div class="module-title">CRM ва Маршрут (Кунлик режа)</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ДАРС: CRM нима? — мижозлар базаси, профессионал восита</li>
+          <li>2-ДАРС: Агент учун CRM минимуми — 6 та мажбурий майдон</li>
+          <li>3-ДАРС: Кунлик режалаштириш — 3–5–8 формуласи</li>
+          <li>4-ДАРС: Маршрут тузиш — кластер принципи, 1 ҳудуд = 1 кун</li>
+          <li>5-ДАРС: Вақт менежменти — 5 та "ўғирловчи", 50/30/20 қоида</li>
+          <li>6-ДАРС: Ҳисобот ва таҳлил — ҳар жума текшириш</li>
+          <li>7-ДАРС: KPI билан ишлаш — оборот, учрашув, тўлов, янги мижоз</li>
+          <li>8-ДАРС: Тартиб ва интизом — ТОП агент белгиси</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: Вақтни тежайди, кўпроқ сотади</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-num">08</div>
+        <div class="module-info">
+          <div class="module-tag">Дала · Field Action PRO</div>
+          <div class="module-title">"Дала"даги 7 Қадам</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <ul class="module-lessons">
+          <li>1-ҚАДАМ: Ташқи кўриниш — MITAL форма, каталог, визитка</li>
+          <li>2-ҚАДАМ: Саломлашиш ва "Муз ёриш" — rapport техникаси</li>
+          <li>3-ҚАДАМ: Разведка (Merchandising) — полкани кузатиш</li>
+          <li>4-ҚАДАМ: Эҳтиёжни аниқлаш — 4 та "олтин савол"</li>
+          <li>5-ҚАДАМ: SMART тақдимот — муаммо → ечим → фойда</li>
+          <li>6-ҚАДАМ: Эътирозни ёпиш — "Тест сотув" техникаси</li>
+          <li>7-ҚАДАМ: Маъмурият — CRM, кейинги визит</li>
+        </ul>
+      </div>
+      <div class="module-footer">🎯 Натижа: 20 визит → 10 диалог → 5 буюртма</div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FORMULA -->
+<div class="formula-section">
+  <div class="formula-inner reveal">
+    <div class="section-label" style="text-align:center">🏆 Муваффақият формуласи</div>
+    <h2 class="section-title" style="text-align:center">ТОП Агент Сири</h2>
+    <div class="formula-box">
+      <div class="formula-item">БИЛИМ</div>
+      <div class="formula-op">×</div>
+      <div class="formula-item">ТАРТИБ</div>
+      <div class="formula-op">×</div>
+      <div class="formula-item">МУНОСАБАТ</div>
+      <div class="formula-op formula-eq">=</div>
+      <div class="formula-item" style="color:var(--gold-light)">💰 ПУЛ</div>
+    </div>
+    <p style="color:var(--text-muted);max-width:500px;margin:0 auto;font-size:0.95rem;">
+      ТОП агентлар импровизация қилмайди — улар система билан ишлайди. Ҳар бир визитда аниқ 7 қадам.
+    </p>
+  </div>
+</div>
+
+<!-- DAILY SCHEDULE -->
+<section class="section reveal">
+  <div class="section-label">📅 Кунлик режа</div>
+  <h2 class="section-title">Идеал кунинг<br>жадвали</h2>
+  <div class="schedule-grid">
+    <div class="schedule-item">
+      <div class="schedule-time">☑️ 08:30</div>
+      <div class="schedule-task">Кунлик режа тузиш — кимлarga, қаерга</div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">☑️ 09:00</div>
+      <div class="schedule-task">Қўнғироқлар — учрашув тасдиқлаш</div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">☑️ 10:00</div>
+      <div class="schedule-task">Ташриф — 15–20 та алоқа, 8–12 та визит</div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">☑️ 17:30</div>
+      <div class="schedule-task">Кунлик ҳисобот — CRM тўлдириш</div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">☑️ 18:00</div>
+      <div class="schedule-task">Ўқиш — 20 дақиқа Academy дарслари</div>
+    </div>
+  </div>
+  <div class="alert">
+    <span class="alert-icon">💡</span>
+    <span><strong>Кунлик меъёр:</strong> ✅ 15–20 та алоқа &nbsp;|&nbsp; ✅ 8–12 та ташриф &nbsp;|&nbsp; ✅ 3–5 та буюртма.<br>Режасиз иш — пулсиз иш.</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TOP 10 RULES -->
+<section class="section reveal">
+  <div class="section-label">🚀 ТОП агент қоидалари</div>
+  <h2 class="section-title">Қандай қилиб<br>ТОП даражага чиқилади</h2>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-num">01 — АСОСИЙ ҚОИДА</div>
+      <div class="rule-title">Маҳсулотни 100% бил</div>
+      <div class="rule-text">Сен оддий сотувчи эмас — сен мутахассиссан. 5W-30/10W-40 фарқи, синтетик/минерал турлар, OEM тасдиқлари — ҳаммасини тушун.</div>
+      <div class="tip-example">Мижоз билимли одамга ишонади.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">02</div>
+      <div class="rule-title">Мижозларингни яхши тани</div>
+      <div class="rule-text">Базанг — бойлигинг. Ҳар бир нуқта ҳақида: исм, маҳсулот, буюртма вақти, муаммо — ёзиб юр.</div>
+      <div class="tip-example">«Алишер — ҳар чоршанба 5W-30 олади»</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">03</div>
+      <div class="rule-title">Ҳар куни режа туз</div>
+      <div class="rule-text">Ҳар тонг ёзиб ол: кимлarga борасан, кимга қўнғироқ қиласан, кимга эслатасан.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">04</div>
+      <div class="rule-title">Фақат буюртма олма — СОТ</div>
+      <div class="rule-text">Қўшимча сотув, комплект сотиш, катта ҳажмда сотиш. Мой + фильтр + ювиш воситаси = катта чек.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">05</div>
+      <div class="rule-title">Эътирозлар билан ишла</div>
+      <div class="rule-text">ТОП агент қўрқмайди: «Қиммат», «Кейин», «Ўйлаб кўраман» — буларнинг ҳаммасига аниқ жавоб бор.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">06</div>
+      <div class="rule-title">Буюртмаларни назорат қил</div>
+      <div class="rule-text">Жўнатилдими, етиб бордими, ёқдими, қачон яна олади — ҳаммасини текшир.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">07</div>
+      <div class="rule-title">Янги мижоз изла</div>
+      <div class="rule-text">Ҳар ҳафта камида 2–3 та янги нуқта: СТО, мой алмаштириш жойлари, дўконлар, гаражлар.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">08</div>
+      <div class="rule-title">Энг яхшилардан ўрган</div>
+      <div class="rule-text">Қара → Тингла → Ёзиб ол → Такрорла → Яхшила → Ўтиб кет.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">09</div>
+      <div class="rule-title">Рақамларингни бил</div>
+      <div class="rule-text">Оборот, фоиз, ойлик даромад, ўсиш — ҳар ҳафта ўзингни текшир.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">10</div>
+      <div class="rule-title">Ўзингни келажак раҳбардек тут</div>
+      <div class="rule-text">Ёрдам бер, шикоят қилма, муаммо ҳал қил, компанияни ўйла. Ўсишни истасанг — раҳбардек фикрла.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SCRIPTS -->
+<section class="section reveal scripts-section" id="skriptlar" style="background:transparent">
+  <div class="section-label">💬 Жонли скриптлар</div>
+  <h2 class="section-title">Реал сотув<br>диалоглари</h2>
+  <p class="section-desc">Ҳар бир скриптни ёд ол, амалда қўлла, ўзингникига мослаштир.</p>
+
+  <div class="tabs" style="margin-top:2.5rem">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchTab(this,'t1')">Биринчи учрашув</button>
+      <button class="tab-btn" onclick="switchTab(this,'t2')">Эътирозлар</button>
+      <button class="tab-btn" onclick="switchTab(this,'t3')">Ёпиш техникаси</button>
+      <button class="tab-btn" onclick="switchTab(this,'t4')">Дебиторка</button>
+      <button class="tab-btn" onclick="switchTab(this,'t5')">Қийин мижоз</button>
+    </div>
+
+    <div id="t1" class="tab-content active">
+      <div class="script-card">
+        <div class="script-header">
+          <span class="script-emoji">🤝</span>
+          <span class="script-goal">Биринчи учрашув скрипти</span>
+          <span class="script-tag">Янги мижоз</span>
+        </div>
+        <div class="script-body">
+          <div class="script-dialogue">
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Ассалому алайкум! Мен ___, MITAL компаниясиданман. Сифатли мотор мойлари ва фильтрлар етказиб берамиз. 2 дақиқа вақтингиз борми?</span></div>
+            <div class="dialogue-line"><span class="dialogue-role mijoz">→ Тинглаш:</span><span>Илтимос айтинг: Қайси мой кўпроқ кетяпти? Кунда нечта машинага хизмат қиласиз? Таъминотчиларда нима ёқмайди?</span></div>
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Унда сизга мана шу тур жуда мос келади. Иссиқ иқлимда яхши ишлайди, шикоят кам. Ҳозир кўп СТОлар шу маҳсулотни оляпти.</span></div>
+            <div class="dialogue-line"><span class="dialogue-role">Ёпиш:</span><span>Келинг, аввал озроқ олиб синаб кўрайлик. Ёқса, кейин кўпайтириб оласиз. Қанча олиш қулай бўлади? [Жим туриб кут]</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="script-card">
+        <div class="script-header">
+          <span class="script-emoji">📞</span>
+          <span class="script-goal">Биринчи қўнғироқ скрипти</span>
+          <span class="script-tag">Учрашув тайинлаш</span>
+        </div>
+        <div class="script-body">
+          <div class="script-dialogue">
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Ассалому алайкум, [Исм]! Менинг исмим [Агент исми], MITAL компаниясиданман. Биз Ўзбекистонда мотор мойлари дистрибьюцияси билан шуғулланамиз.</span></div>
+            <div class="dialogue-line"><span class="dialogue-role">Илмоқ:</span><span>Сиз билан мой алмаштириш шохобчангиз фойдасини ошириш бўйича 2 дақиқа гаплашсак бўладими?</span></div>
+            <div class="dialogue-line"><span class="dialogue-role">Таклиф:</span><span>Маҳсулотларимиз бошқа брендлардан кўра 10–15% кўпроқ фойда қолдиради. Бундан ташқари мижоз оқимини оширишда ҳам ёрдам берамиз.</span></div>
+            <div class="dialogue-line"><span class="dialogue-role">CTA:</span><span>Бугун соат 15:00 ёки эртага эрталаб ўтиб кўрсатсам бўладими? Қайси вақт қулай?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t2" class="tab-content">
+      <div class="tip-grid">
+        <div class="tip-card">
+          <div class="tip-num">❌ ЭЪТИРОЗ #1</div>
+          <div class="tip-title">«ҚИММАТ»</div>
+          <div class="tip-text">Арзонлаштирма — қийматни тушунтир.</div>
+          <div class="tip-example">«Тўғри, нархи бор. Лекин бу мой API SP стандартида ва моторни 10 000 км ҳимоя қилади. Сизга 20% маржа қолади. Бир марта синаб кўрайлик.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">❌ ЭЪТИРОЗ #2</div>
+          <div class="tip-title">«ЎЙЛАБ КЎРАМАН»</div>
+          <div class="tip-text">Сабабни аниқла — ечим бер.</div>
+          <div class="tip-example">«Нимаси тўхтатяпти: нархими ёки ҳажмими? Келинг ҳозир ҳал қилайлик, вақтингизни тежаймиз.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">❌ ЭЪТИРОЗ #3</div>
+          <div class="tip-title">«ТАЪМИНОТЧИМ БОР»</div>
+          <div class="tip-text">Алмаштириш шарт эмас — биринчи кичик қадам.</div>
+          <div class="tip-example">«Жуда яхши, демак ишга жиддий қарайсиз. Алмаштириш шарт эмас. Бир қисмини биздан синаб кўринг.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">❌ ЭЪТИРОЗ #4</div>
+          <div class="tip-title">«КЕРАК ЭМАС»</div>
+          <div class="tip-text">Кетмай — қизиқишини уйғот.</div>
+          <div class="tip-example">«Майли. Фақат 1 дақиқа айтай — сизга фойдали бўлиши мумкин. Агар ёқмаса, безовта қилмайман.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">❌ ЭЪТИРОЗ #5</div>
+          <div class="tip-title">«РАҲБАР БИЛАН ГАПЛАШАМАН»</div>
+          <div class="tip-text">Раҳбарга кўрсатиш учун тайёр материал бер.</div>
+          <div class="tip-example">«Мен сизга раҳбарингизга кўрсатиш учун "Фойда ҳисоб-китоби" жадвалини бераман, шунда тушунтириш осон бўлади.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">💡 ОЛТИН ҚОИДА</div>
+          <div class="tip-title">«Лекин» дема</div>
+          <div class="tip-text">«Лекин» мижознинг фикрини инкор қилади.</div>
+          <div class="tip-example">«Тўғри, нархи арзон эмас, айнан шунинг учун ҳам бизда қайтариб олиш кафолати бор.» → "Шу билан бирга" ишлатинг.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t3" class="tab-content">
+      <div class="tip-grid">
+        <div class="tip-card">
+          <div class="tip-num">ТЕХНИКА #1</div>
+          <div class="tip-title">Танлов бериш (Альтернатив)</div>
+          <div class="tip-text">Мижозни «Оламанми?» эмас, «Қайси бирини оламан?» деган саволга ўтказ.</div>
+          <div class="tip-example">«Дўконингиз учун 10 та 4 литрлик синтетика ёзамизми ёки 5 та синтетика + 5 та ярим синтетика аралаш?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТЕХНИКА #2</div>
+          <div class="tip-title">«Ҳа» занжири (Сократ)</div>
+          <div class="tip-text">Кетма-кет 3 та «Ҳа» олгач — 4-синчига «Йўқ» дейиш қийин.</div>
+          <div class="tip-example">«Сиз учун мижозлар қайтиши муҳим? (Ҳа) Мой сифати буnga таъсир қилади? (Ҳа) Бюджетга мос? (Ҳа) Ундан ҳозир буюртма расмийлаштирамизми?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТЕХНИКА #3</div>
+          <div class="tip-title">Дефицит босими (FOMO)</div>
+          <div class="tip-text">Реал чекловни кўрсат — алдама.</div>
+          <div class="tip-example">«Ака, ҳозир омборда 5W-30 камайиб қолган. Кейинги партия 2 ҳафтадан кейин. Ҳозир заҳира қилиб қўймасак, мижозлар кутиб қолади. 2 та кейс ёзайми?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТЕХНИКА #4</div>
+          <div class="tip-title">Иқтисодий асос</div>
+          <div class="tip-text">Мижоз пул сарфлаётганини эмас, пул ишлаётганини ҳис қилсин.</div>
+          <div class="tip-example">«Ҳар бир литрда 8 000 сўм кўп фойда. Ойига 200 литр сотсангиз = +1.6 млн сўм соф фойда. Бошлаймизми?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТЕХНИКА #5</div>
+          <div class="tip-title">«Кучукча» — Синов партияси</div>
+          <div class="tip-text">Масъулиятни камайтир — хавфни йўқ қил.</div>
+          <div class="tip-example">«Катта ҳажм олмайлик. Фақат 10 та банка. 10 кунда сотилмаса, мен ўзим қайтиб оламан. Розимисиз?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">⚠️ СТОП-ХАТО</div>
+          <div class="tip-title">Жим тур — ютасан</div>
+          <div class="tip-text">Ёпиш техникасини ишлатдингми — жим тур. Ким биринчи гапирса — ўша ютқазади.</div>
+          <div class="tip-example">❌ «Майли, ўйлаб кўринг, эртага қиларсиз» — бу сотувни ўлдиради.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t4" class="tab-content">
+      <div class="script-card">
+        <div class="script-header">
+          <span class="script-emoji">📋</span>
+          <span class="script-goal">1-БОСҚИЧ: Эслатиш (Муддатдан 1-2 кун олдин)</span>
+          <span class="script-tag">Мулойим</span>
+        </div>
+        <div class="script-body">
+          <div class="script-dialogue">
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Ассалому алайкум, Алишер ака! MITAL компаниясидан [Исм]ман. Бугун тўлов графиги бўйича сизнинг навбатингиз экан — шуни эслатиб ўтмоқчи эдим. Сизга бориб олайми ёки ўзингиз ўтказасизми?</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="script-card">
+        <div class="script-header">
+          <span class="script-emoji">⏰</span>
+          <span class="script-goal">2-БОСҚИЧ: Мулойим босим (2-3 кун кечикканда)</span>
+          <span class="script-tag">Аниқ муддат</span>
+        </div>
+        <div class="script-body">
+          <div class="script-dialogue">
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Ака, тўловим бир оз кечикди. Нимадир муаммо бўлдими? Мен Сизни доимий ва инсофли мижоз деб биламан — компания олдида Сизни ҳимоя қиляпман. Бугун 17:00 гача ёки эртага 09:00 да ёпамизми?</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="script-card">
+        <div class="script-header">
+          <span class="script-emoji">🔒</span>
+          <span class="script-goal">3-БОСҚИЧ: Қатъийлик (5+ кун кечикканда)</span>
+          <span class="script-tag">Жиддий</span>
+        </div>
+        <div class="script-body">
+          <div class="script-dialogue">
+            <div class="dialogue-line"><span class="dialogue-role">Агент:</span><span>Ака, бир неча бор келишганимизга қарамай тўлов бўлмади. Мен Сиз билан муносабатларимиз бузилишини хоҳламайман. Лекин регламент бўйича, бугун тўлов тушмаса — ишни РОПга топширишга мажбурман. Бу кейинги товарларни фақат нақд ва қимматроқ нархда дегани. Ҳозироқ ҳал қилайлик.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="alert">
+        <span class="alert-icon">⚠️</span>
+        <span><strong>Олтин қоида:</strong> Пул сўраётганда кечирим сўраманг! ❌ «Кечирасиз, безовта қиляпман...» ✅ «Ассалому алайкум, тўлов бўйича қўнғироқ қиляпман.» Аниқ рақамни айтинг.</span>
+      </div>
+    </div>
+
+    <div id="t5" class="tab-content">
+      <div class="tip-grid">
+        <div class="tip-card">
+          <div class="tip-num">ТИП #1</div>
+          <div class="tip-title">Агрессив мижоз (Бақироқ)</div>
+          <div class="tip-text">У гапириб бўлгунча жим тур. Пастроқ овозда гапиринг.</div>
+          <div class="tip-example">«Ака, тушунаман, бугун кунингиз оғир. Вақтингизни олмайман — фақат битта муҳим масалани гаплашиб олайлик, кейин ўзингиз қарор қиласиз.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТИП #2</div>
+          <div class="tip-title">Сукутчи мижоз (Гапирмайди)</div>
+          <div class="tip-text">Очиқ саволлар бомбардимони — уни гапиртир.</div>
+          <div class="tip-example">«Бу мой ҳақида нима деб ўйлайсиз?» «Сиз учун таъминотчида энг муҳими нима?» «Биринчи навбатда қайси муаммонгизни ҳал қилайлик?»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТИП #3</div>
+          <div class="tip-title">Ҳисобчи мижоз (Тийин ҳисоблайди)</div>
+          <div class="tip-text">Унга фақат рақамлар тилида гапиринг.</div>
+          <div class="tip-example">«Ҳисоблаймиз. Ҳозир Х сўмга оляпсиз. Бизда ҳар литрда Y сўм қўшимча. Ойда Z млн сўм — мана рақамлар.»</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">ТИП #4</div>
+          <div class="tip-title">Ваъдачи мижоз (Доим кечиктиради)</div>
+          <div class="tip-text">Ваъдани қоғозга туширтир — аниқ жадвал.</div>
+          <div class="tip-example">«Ака, 3 марта "эртага" дедингиз. Мана шу қоғозга "сешанба 10:00 да тўлайман" деб ёзиб беринг — раҳбаримга кўрсатишим керак.»</div>
+        </div>
+      </div>
+      <div class="alert">
+        <span class="alert-icon">🧠</span>
+        <span><strong>Психологик чидамлилик:</strong> Шахсий қабул қилма. Мижоз «Сен ёмонсан» демаяпти — «Менга ҳозир таклифинг ёқмаяпти» деяпти. Ким биринчи жаҳл қилса — ўша ютқазади.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CAREER PATH -->
+<section class="section reveal" id="karyera">
+  <div class="section-label">📈 Карьера йўли</div>
+  <h2 class="section-title">MITAL да<br>ким ўсади</h2>
+  <p class="section-desc">Ҳаммаси сенинг натижангa боғлиқ. 6 ойда 100% режа — кейинги поғона.</p>
+  <div class="career-path">
+    <div class="career-step">
+      <div class="career-dot">👤</div>
+      <div class="career-info">
+        <div class="career-role">Агент</div>
+        <div class="career-cond">Бошланғич позиция — ўрганиш ва амалиёт</div>
+      </div>
+    </div>
+    <div class="career-step">
+      <div class="career-dot">👨‍💼</div>
+      <div class="career-info">
+        <div class="career-role">ТОП Агент</div>
+        <div class="career-cond">6 ой давомида режани 100% бажарса</div>
+      </div>
+    </div>
+    <div class="career-step">
+      <div class="career-dot">👔</div>
+      <div class="career-info">
+        <div class="career-role">Супервайзер</div>
+        <div class="career-cond">Жамоани бошқариш ва ўқитиш</div>
+      </div>
+    </div>
+    <div class="career-step">
+      <div class="career-dot">📊</div>
+      <div class="career-info">
+        <div class="career-role">Регионал менежер</div>
+        <div class="career-cond">Регионни бошқариш</div>
+      </div>
+    </div>
+    <div class="career-step">
+      <div class="career-dot">🏢</div>
+      <div class="career-info">
+        <div class="career-role">РОП (Бўлим бошлиғи)</div>
+        <div class="career-cond">Бутун савдо бўлимини бошқариш</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KPI -->
+<section class="section reveal">
+  <div class="section-label">📊 KPI — Компасинг</div>
+  <h2 class="section-title">Агент ҳар куни<br>текшириши керак</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-name">Оборот</div>
+      <div class="kpi-desc">Ойлик сотув ҳажми</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📞</div>
+      <div class="kpi-name">Учрашувлар</div>
+      <div class="kpi-desc">15–20 та кунлик алоқа</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">💵</div>
+      <div class="kpi-name">Тўловлар</div>
+      <div class="kpi-desc">Дебиторка назорати</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🆕</div>
+      <div class="kpi-name">Янги мижоз</div>
+      <div class="kpi-desc">Ҳафтада 2–3 та</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📦</div>
+      <div class="kpi-name">Буюртмалар</div>
+      <div class="kpi-desc">Кунда 3–5 та</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📈</div>
+      <div class="kpi-name">Ўсиш</div>
+      <div class="kpi-desc">Ҳафтадан-ҳафтага фоиз</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXAM -->
+<section class="exam-section reveal" id="test">
+  <div class="exam-bg"></div>
+  <div class="exam-card">
+    <div class="exam-icon">🏆</div>
+    <h2 class="exam-title">Тайёрмисан?<br>Имтиҳонга кир!</h2>
+    <p class="exam-desc">Барча модулларни ўтдингми? Энди MITAL агенти бўлиш учун расмий тестни топшир. Муваффақиятлар! 🚀</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScdDASZFYqBDI3np5kjuaqLFZqlOcBDbvezjmgVYA-dBcxYBQ/viewform?usp=header" target="_blank" class="btn-exam">
+      📝 Имтиҳонни бошлаш
+    </a>
+    <div style="margin-top:1.5rem;font-size:0.8rem;color:var(--text-muted)">
+      MITAL Online Sales Academy • Агентлар учун онлайн ўқув тизими
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🎓 MITAL ACADEMY</div>
+  <p class="footer-text">Агентлар учун онлайн ўқув тизими • Германия сифати • Ўзбекистон бозори</p>
+  <p class="footer-text" style="margin-top:0.5rem">© 2025 MITAL Online Sales Academy. Барча ҳуқуқлар ҳимояланган.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Week toggle
+  function toggleWeek(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.week-toggle');
+    const isOpen = body.style.display === 'block';
+    body.style.display = isOpen ? 'none' : 'block';
+    toggle.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+  document.querySelectorAll('.week-body').forEach(b => b.style.display = 'block');
+  document.querySelectorAll('.week-toggle').forEach(t => t.style.transform = 'rotate(180deg)');
+
+  // Tabs
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+</script>
+
+<!-- ===== MEDIA MANAGER ===== -->
+<!-- FAB Button -->
+<button class="media-fab" onclick="openMedia()">
+  <div class="fab-dot"></div>
+  ✏️ MEDIA BOSHQARUV
+  <span class="fab-count" id="fabCount">0</span>
+</button>
+
+<!-- Notification -->
+<div class="notif" id="notif">
+  <span>✅</span>
+  <span id="notifText">Nusxalandi!</span>
+</div>
+
+<!-- Overlay + Panel -->
+<div class="media-overlay" id="mediaOverlay" onclick="handleOverlayClick(event)">
+  <div class="media-panel">
+    <div class="panel-header">
+      <div class="panel-title">🎬 Media Boshqaruv Paneli</div>
+      <button class="panel-close" onclick="closeMedia()">✕</button>
+    </div>
+    <div class="panel-tabs">
+      <button class="panel-tab active" onclick="switchPanelTab(this,'upload')">📤 Yuklash</button>
+      <button class="panel-tab" onclick="switchPanelTab(this,'gallery')">🖼 Galereya <span id="galleryCount" style="font-size:0.7rem;background:rgba(201,168,76,0.15);color:var(--gold);padding:0.1rem 0.4rem;border-radius:10px;margin-left:0.3rem">0</span></button>
+      <button class="panel-tab" onclick="switchPanelTab(this,'embed')">🔗 Embed</button>
+      <button class="panel-tab" onclick="switchPanelTab(this,'guide')">📖 Qo'llanma</button>
+    </div>
+    <div class="panel-body">
+
+      <!-- UPLOAD TAB -->
+      <div class="panel-section active" id="sec-upload">
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" multiple accept="image/*,video/*" onchange="handleFiles(this.files)">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Foto yoki Video yuklang</div>
+          <div class="upload-hint">Bosing yoki bu yerga tashlang · <span>JPG, PNG, GIF, MP4, MOV, WebM</span></div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <div class="section-select-label" style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.75rem;">📌 Qaysi bo'limga qo'shilsin?</div>
+          <div class="section-chips">
+            <button class="section-chip active" onclick="toggleChip(this,'hero')">Hero Banner</button>
+            <button class="section-chip" onclick="toggleChip(this,'modullar')">Modullar</button>
+            <button class="section-chip" onclick="toggleChip(this,'skriptlar')">Skriptlar</button>
+            <button class="section-chip" onclick="toggleChip(this,'karyera')">Karyera</button>
+            <button class="section-chip" onclick="toggleChip(this,'custom')">Boshqa joy</button>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:8px;padding:1.25rem;font-size:0.82rem;color:var(--text-muted);line-height:1.7;">
+          💡 <strong style="color:var(--text)">Qanday ishlaydi:</strong> Faylni yuklab, «Kodni nusxalash» tugmasini bosing. Keyin sait HTML kodiga joylang yoki ishlatuvchi nusxalangan URL ni brauzerda oching.
+        </div>
+      </div>
+
+      <!-- GALLERY TAB -->
+      <div class="panel-section" id="sec-gallery">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+          <div style="font-size:0.85rem;color:var(--text-muted)">Yuklangan media fayllar</div>
+          <button onclick="clearAll()" style="background:rgba(232,93,38,0.1);border:1px solid rgba(232,93,38,0.3);color:#E85D26;padding:0.4rem 0.9rem;border-radius:6px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(232,93,38,0.2)'" onmouseout="this.style.background='rgba(232,93,38,0.1)'">🗑 Hammasini o'chirish</button>
+        </div>
+        <div class="media-grid" id="mediaGrid">
+          <div class="media-empty">
+            <div class="media-empty-icon">📂</div>
+            Hali hech qanday media yuklanmagan.<br>«Yuklash» bo'limiga o'ting.
+          </div>
+        </div>
+      </div>
+
+      <!-- EMBED TAB -->
+      <div class="panel-section" id="sec-embed">
+        <div class="embed-tabs">
+          <button class="embed-tab active" onclick="switchEmbedTab(this,'img')">🖼 Rasm</button>
+          <button class="embed-tab" onclick="switchEmbedTab(this,'yt')">▶️ YouTube</button>
+          <button class="embed-tab" onclick="switchEmbedTab(this,'tg')">📱 Telegram</button>
+          <button class="embed-tab" onclick="switchEmbedTab(this,'gdrive')">📎 Google Drive</button>
+        </div>
+
+        <!-- Image embed -->
+        <div class="embed-form active" id="emb-img">
+          <div class="form-group">
+            <label class="form-label">Rasm URL manzili</label>
+            <input class="form-input" id="imgUrl" placeholder="https://example.com/rasm.jpg" oninput="updateImgPreview()">
+            <div class="form-hint">To'g'ridan-to'g'ri rasm havolasi (CDN, Google Drive, imgbb va h.k.)</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kenglik</label>
+              <input class="form-input" id="imgW" placeholder="100%" oninput="updateImgPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Balandlik</label>
+              <input class="form-input" id="imgH" placeholder="auto" oninput="updateImgPreview()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Alt matni (ixtiyoriy)</label>
+            <input class="form-input" id="imgAlt" placeholder="Rasm tavsifi" oninput="updateImgPreview()">
+          </div>
+          <div class="preview-box">
+            <div class="preview-label">📋 HTML Kod</div>
+            <div class="preview-code" id="imgCode">&lt;img src="" alt="" style="width:100%;border-radius:8px;"&gt;</div>
+            <button class="copy-code-btn" onclick="copyCode('imgCode')">📋 Kodni nusxalash</button>
+          </div>
+        </div>
+
+        <!-- YouTube embed -->
+        <div class="embed-form" id="emb-yt">
+          <div class="form-group">
+            <label class="form-label">YouTube video havolasi</label>
+            <input class="form-input" id="ytUrl" placeholder="https://www.youtube.com/watch?v=..." oninput="updateYtPreview()">
+            <div class="form-hint">Oddiy YouTube havola yoki qisqa youtu.be havola ishlaydi</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kenglik</label>
+              <input class="form-input" id="ytW" value="100%" oninput="updateYtPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Balandlik (px)</label>
+              <input class="form-input" id="ytH" value="400" oninput="updateYtPreview()">
+            </div>
+          </div>
+          <div class="preview-box">
+            <div class="preview-label">📋 HTML Kod</div>
+            <div class="preview-code" id="ytCode">&lt;iframe src="" width="100%" height="400" frameborder="0" allowfullscreen style="border-radius:8px;"&gt;&lt;/iframe&gt;</div>
+            <button class="copy-code-btn" onclick="copyCode('ytCode')">📋 Kodni nusxalash</button>
+          </div>
+        </div>
+
+        <!-- Telegram embed -->
+        <div class="embed-form" id="emb-tg">
+          <div class="form-group">
+            <label class="form-label">Telegram post havolasi</label>
+            <input class="form-input" id="tgUrl" placeholder="https://t.me/kanalnom/123" oninput="updateTgPreview()">
+            <div class="form-hint">Ochiq Telegram kanal yoki guruh posti havolasi</div>
+          </div>
+          <div class="preview-box">
+            <div class="preview-label">📋 HTML Kod</div>
+            <div class="preview-code" id="tgCode">&lt;script async src="https://telegram.org/js/telegram-widget.js?22"&gt;&lt;/script&gt;</div>
+            <button class="copy-code-btn" onclick="copyCode('tgCode')">📋 Kodni nusxalash</button>
+          </div>
+        </div>
+
+        <!-- Google Drive embed -->
+        <div class="embed-form" id="emb-gdrive">
+          <div class="form-group">
+            <label class="form-label">Google Drive fayl ID</label>
+            <input class="form-input" id="gdriveId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" oninput="updateGdrivePreview()">
+            <div class="form-hint">Havola: drive.google.com/file/d/<strong style="color:var(--gold)">ID_SHU_YERDA</strong>/view</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fayl turi</label>
+            <select class="form-select" id="gdriveType" onchange="updateGdrivePreview()">
+              <option value="video">Video</option>
+              <option value="image">Rasm</option>
+              <option value="pdf">PDF</option>
+            </select>
+          </div>
+          <div class="preview-box">
+            <div class="preview-label">📋 HTML Kod</div>
+            <div class="preview-code" id="gdriveCode">&lt;iframe src="https://drive.google.com/file/d/ID/preview" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</div>
+            <button class="copy-code-btn" onclick="copyCode('gdriveCode')">📋 Kodni nusxalash</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GUIDE TAB -->
+      <div class="panel-section" id="sec-guide">
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:1.5rem;">
+            <div style="font-family:'Unbounded',sans-serif;font-size:0.85rem;font-weight:700;color:var(--gold);margin-bottom:0.75rem;">1️⃣ Rasm qo'shish</div>
+            <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.8;">
+              <strong style="color:var(--text)">Usul A — To'g'ridan yuklash:</strong><br>
+              «Yuklash» bo'limidan faylni tanlang → Galereya bo'limida «📋» tugmasini bosing → HTML kodini nusxalang → Sait kodiga joylang.
+              <br><br>
+              <strong style="color:var(--text)">Usul B — URL orqali:</strong><br>
+              «Embed» → «Rasm» bo'limiga o'ting → URL kiriting → Kodni nusxalang.
+            </div>
+          </div>
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:1.5rem;">
+            <div style="font-family:'Unbounded',sans-serif;font-size:0.85rem;font-weight:700;color:var(--gold);margin-bottom:0.75rem;">2️⃣ Video qo'shish</div>
+            <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.8;">
+              <strong style="color:var(--text)">YouTube:</strong> «Embed» → «YouTube» → Havolani joylashtiring → Kodni nusxalang<br><br>
+              <strong style="color:var(--text)">Google Drive:</strong> «Embed» → «Google Drive» → Fayl ID ni kiriting<br><br>
+              <strong style="color:var(--text)">Telegram:</strong> «Embed» → «Telegram» → Post havolasini joylashtiring
+            </div>
+          </div>
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:1.5rem;">
+            <div style="font-family:'Unbounded',sans-serif;font-size:0.85rem;font-weight:700;color:var(--gold);margin-bottom:0.75rem;">3️⃣ Kodni saitga joylash</div>
+            <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.8;">
+              Nusxalangan kodni sait HTML faylidagi tegishli bo'limga (masalan, <code style="color:var(--gold-light);">&lt;div class="module-body"&gt;</code>) ichiga joylashtiring. Dizayn avtomatik moslashadi.
+            </div>
+          </div>
+          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:1.25rem;font-size:0.82rem;color:var(--text-muted);line-height:1.7;">
+            ⚡ <strong style="color:var(--gold)">Maslahat:</strong> Rasmlar uchun <strong style="color:var(--text)">imgbb.com</strong> yoki <strong style="color:var(--text)">cloudinary.com</strong> ga yuklang — bepul va tez. Video uchun YouTube Private yoki Google Drive "Havola orqali" sozlamasini yoqing.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- panel-body -->
+  </div><!-- media-panel -->
+</div><!-- media-overlay -->
+
+<script>
+// ===== MEDIA MANAGER JS =====
+let mediaFiles = JSON.parse(localStorage.getItem('mital_media') || '[]');
+
+function updateCounts() {
+  document.getElementById('fabCount').textContent = mediaFiles.length;
+  document.getElementById('galleryCount').textContent = mediaFiles.length;
+}
+
+function showNotif(msg, isError) {
+  const n = document.getElementById('notif');
+  document.getElementById('notifText').textContent = msg;
+  n.style.borderLeftColor = isError ? '#E85D26' : 'var(--green)';
+  n.querySelector('span').textContent = isError ? '❌' : '✅';
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+function openMedia() {
+  document.getElementById('mediaOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderGallery();
+}
+
+function closeMedia() {
+  document.getElementById('mediaOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('mediaOverlay')) closeMedia();
+}
+
+function switchPanelTab(btn, id) {
+  document.querySelectorAll('.panel-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sec-' + id).classList.add('active');
+}
+
+function toggleChip(btn, val) {
+  document.querySelectorAll('.section-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Drag & drop
+const zone = document.getElementById('uploadZone');
+['dragenter','dragover'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.remove('dragover'); }));
+zone.addEventListener('drop', ev => { handleFiles(ev.dataTransfer.files); });
+
+function handleFiles(files) {
+  if (!files || !files.length) return;
+  let count = 0;
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const obj = {
+        id: Date.now() + Math.random(),
+        name: file.name,
+        type: file.type.startsWith('video') ? 'video' : 'image',
+        data: e.target.result,
+        size: (file.size / 1024).toFixed(1) + ' KB',
+        date: new Date().toLocaleDateString('uz')
+      };
+      mediaFiles.unshift(obj);
+      count++;
+      if (count === files.length) {
+        saveMedia();
+        renderGallery();
+        updateCounts();
+        switchPanelTab(document.querySelectorAll('.panel-tab')[1], 'gallery');
+        showNotif(count + ' ta fayl yuklandi!');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function saveMedia() {
+  try { localStorage.setItem('mital_media', JSON.stringify(mediaFiles)); } catch(e) {}
+}
+
+function renderGallery() {
+  const grid = document.getElementById('mediaGrid');
+  if (!mediaFiles.length) {
+    grid.innerHTML = '<div class="media-empty"><div class="media-empty-icon">📂</div>Hali hech qanday media yuklanmagan.<br>«Yuklash» bo\'limiga o\'ting.</div>';
+    return;
+  }
+  grid.innerHTML = mediaFiles.map(f => `
+    <div class="media-item">
+      ${f.type === 'video'
+        ? `<video src="${f.data}" muted></video>`
+        : `<img src="${f.data}" alt="${f.name}" loading="lazy">`}
+      <div class="media-item-info">
+        <span class="media-type-badge">${f.type === 'video' ? 'VID' : 'IMG'}</span>
+        <span title="${f.name}">${f.name.length > 14 ? f.name.slice(0,14)+'…' : f.name}</span>
+      </div>
+      <div class="media-item-actions">
+        <button class="media-action-btn copy" title="Kodni nusxalash" onclick="copyMediaCode('${f.id}')">📋</button>
+        <button class="media-action-btn del" title="O'chirish" onclick="deleteMedia('${f.id}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function copyMediaCode(id) {
+  const f = mediaFiles.find(x => String(x.id) === String(id));
+  if (!f) return;
+  const code = f.type === 'video'
+    ? `<video src="${f.data}" controls style="width:100%;border-radius:8px;max-width:100%;"></video>`
+    : `<img src="${f.data}" alt="${f.name}" style="width:100%;border-radius:8px;max-width:100%;">`;
+  navigator.clipboard.writeText(code).then(() => showNotif('HTML kod nusxalandi!'));
+}
+
+function deleteMedia(id) {
+  mediaFiles = mediaFiles.filter(x => String(x.id) !== String(id));
+  saveMedia();
+  renderGallery();
+  updateCounts();
+  showNotif('Fayl o\'chirildi');
+}
+
+function clearAll() {
+  if (!confirm('Barcha media fayllar o\'chirilsinmi?')) return;
+  mediaFiles = [];
+  saveMedia();
+  renderGallery();
+  updateCounts();
+  showNotif('Galereya tozalandi');
+}
+
+// EMBED HELPERS
+function switchEmbedTab(btn, id) {
+  document.querySelectorAll('.embed-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.embed-form').forEach(f => f.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('emb-' + id).classList.add('active');
+}
+
+function updateImgPreview() {
+  const url = document.getElementById('imgUrl').value;
+  const w = document.getElementById('imgW').value || '100%';
+  const h = document.getElementById('imgH').value || 'auto';
+  const alt = document.getElementById('imgAlt').value || '';
+  document.getElementById('imgCode').textContent =
+    `<img src="${url}" alt="${alt}" style="width:${w};height:${h};border-radius:8px;object-fit:cover;">`;
+}
+
+function extractYtId(url) {
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : '';
+}
+
+function updateYtPreview() {
+  const id = extractYtId(document.getElementById('ytUrl').value);
+  const w = document.getElementById('ytW').value || '100%';
+  const h = document.getElementById('ytH').value || '400';
+  document.getElementById('ytCode').textContent = id
+    ? `<iframe src="https://www.youtube.com/embed/${id}" width="${w}" height="${h}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:8px;display:block;"></iframe>`
+    : `<!-- YouTube ID topilmadi — havolani tekshiring -->`;
+}
+
+function updateTgPreview() {
+  const url = document.getElementById('tgUrl').value;
+  const clean = url.replace('https://t.me/', '');
+  document.getElementById('tgCode').textContent = clean
+    ? `<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${clean}" data-width="100%"><\/script>`
+    : `<!-- Telegram havolasi kiriting -->`;
+}
+
+function updateGdrivePreview() {
+  const id = document.getElementById('gdriveId').value.trim();
+  document.getElementById('gdriveCode').textContent = id
+    ? `<iframe src="https://drive.google.com/file/d/${id}/preview" width="100%" height="480" frameborder="0" allow="autoplay" style="border-radius:8px;display:block;"></iframe>`
+    : `<!-- Google Drive fayl ID kiriting -->`;
+}
+
+function copyCode(elId) {
+  const text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(() => showNotif('HTML kod nusxalandi! ✨'));
+}
+
+// Init
+updateCounts();
+</script>
+</body>
+</html>
