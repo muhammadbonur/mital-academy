@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MITAL Academy — B2C Savdo Ustaxonasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12161A;
+  --bg-elev:#1A2027;
+  --bg-elev-2:#1F262E;
+  --paper:#EDE7D9;
+  --paper-dim:#B9B2A0;
+  --gold:#C89B3C;
+  --gold-bright:#E3BB63;
+  --rust:#B5542D;
+  --rust-bright:#D06B3F;
+  --green:#5C8368;
+  --green-bright:#79A886;
+  --steel:#4A5A66;
+  --line:rgba(237,231,217,0.12);
+  --line-strong:rgba(237,231,217,0.22);
+  --shadow:0 20px 60px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--paper);
+  font-family:'Source Serif 4',serif;
+  font-size:17px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:#12161A;}
+h1,h2,h3,h4,.display{
+  font-family:'Oswald',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  font-weight:600;
+  color:var(--paper);
+  margin:0;
+}
+.mono{font-family:'JetBrains Mono',monospace;}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+
+/* ---------- background texture ---------- */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(200,155,60,0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(181,84,45,0.06), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;
+  background:rgba(18,22,26,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{
+  width:34px;height:34px;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;color:var(--gold-bright);
+  position:relative;
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid var(--line-strong);
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.1;}
+.brand-text b{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:0.12em;color:var(--paper);}
+.brand-text span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--gold);text-transform:uppercase;}
+.topbar-progress{
+  display:flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--paper-dim);
+}
+.gauge-mini{width:44px;height:24px;position:relative;}
+.menu-btn{
+  display:none;background:none;border:1px solid var(--line-strong);color:var(--paper);
+  width:38px;height:38px;border-radius:6px;cursor:pointer;font-size:18px;
+}
+
+/* ---------- layout ---------- */
+.layout{
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:260px minmax(0,1fr);
+  gap:0;
+  max-width:1320px;margin:0 auto;
+}
+.side-nav{
+  position:sticky;top:73px;align-self:start;
+  height:calc(100vh - 73px);
+  padding:36px 18px 36px 28px;
+  overflow-y:auto;
+  border-right:1px solid var(--line);
+}
+.side-nav::-webkit-scrollbar{width:5px;}
+.side-nav::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:4px;}
+.side-nav-title{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;
+  color:var(--paper-dim);text-transform:uppercase;margin-bottom:16px;
+}
+.nav-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 10px;border-radius:8px;cursor:pointer;
+  text-decoration:none;color:var(--paper-dim);
+  transition:background .2s ease, color .2s ease;
+  margin-bottom:2px;
+}
+.nav-item:hover{background:var(--bg-elev);color:var(--paper);}
+.nav-item.active{background:var(--bg-elev-2);color:var(--paper);}
+.nav-item.active .nav-num{color:var(--bg);background:var(--gold-bright);}
+.nav-num{
+  flex:0 0 auto;
+  width:26px;height:26px;border-radius:50%;
+  border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper-dim);
+  transition:all .2s ease;
+}
+.nav-item .nav-label{font-size:13.5px;line-height:1.35;padding-top:4px;font-family:'Oswald',sans-serif;font-weight:400;letter-spacing:0.01em;text-transform:none;}
+
+.main{padding:0 32px 100px;min-width:0;}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:76px 0 56px;
+  border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:1.3fr 0.9fr;gap:48px;align-items:center;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(38px,5vw,58px);line-height:1.04;letter-spacing:0;}
+.hero h1 em{font-style:normal;color:var(--gold-bright);}
+.hero-lede{
+  font-family:'Source Serif 4',serif;font-size:18px;color:var(--paper-dim);
+  max-width:52ch;margin-top:22px;
+}
+.hero-stats{display:flex;gap:0;margin-top:34px;border-top:1px solid var(--line);padding-top:22px;}
+.stat{padding-right:28px;margin-right:28px;border-right:1px solid var(--line);}
+.stat:last-child{border-right:none;}
+.stat b{font-family:'Oswald',sans-serif;font-size:26px;color:var(--gold-bright);display:block;}
+.stat span{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--paper-dim);letter-spacing:0.08em;text-transform:uppercase;}
+.hero-cta{
+  margin-top:34px;display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold-bright);color:#14181C;
+  font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
+  font-size:14px;padding:14px 26px;border-radius:4px;text-decoration:none;
+  transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 10px 30px rgba(200,155,60,0.15);
+}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(200,155,60,0.25);}
+
+/* ---------- gauge ---------- */
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.gauge{width:100%;max-width:300px;}
+.gauge-readout{
+  text-align:center;margin-top:-46px;
+  font-family:'JetBrains Mono',monospace;
+}
+.gauge-readout .num{font-family:'Oswald',sans-serif;font-size:34px;color:var(--paper);}
+.gauge-readout .lbl{font-size:10.5px;letter-spacing:0.16em;color:var(--paper-dim);text-transform:uppercase;}
+
+/* ---------- module list ---------- */
+.modules{margin-top:64px;display:flex;flex-direction:column;gap:18px;}
+details.module{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:linear-gradient(180deg, var(--bg-elev), rgba(26,32,39,0.4));
+  overflow:hidden;
+  transition:border-color .2s ease;
+}
+details.module[open]{border-color:var(--line-strong);}
+details.module summary{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:center;gap:20px;
+  padding:26px 28px;
+  position:relative;
+}
+details.module summary::-webkit-details-marker{display:none;}
+.mod-num{
+  font-family:'Oswald',sans-serif;font-size:38px;font-weight:700;
+  color:transparent;-webkit-text-stroke:1.5px var(--line-strong);
+  flex:0 0 auto;width:64px;
+  transition:all .2s ease;
+}
+details.module[open] .mod-num{-webkit-text-stroke:1.5px var(--gold-bright);color:transparent;}
+.mod-heading{flex:1;min-width:0;}
+.mod-heading .mod-kicker{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.14em;
+  color:var(--paper-dim);text-transform:uppercase;margin-bottom:6px;
+}
+.mod-heading h2{font-size:21px;line-height:1.25;}
+.mod-toggle{
+  flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--paper-dim);font-size:18px;
+  transition:transform .25s ease, background .2s ease, color .2s ease;
+}
+details.module[open] .mod-toggle{transform:rotate(45deg);background:var(--gold-bright);color:#14181C;border-color:var(--gold-bright);}
+
+.mod-body{padding:6px 28px 40px 112px;}
+.mod-goal{
+  font-family:'Source Serif 4',serif;font-style:italic;color:var(--paper-dim);
+  border-left:2px solid var(--gold);padding-left:16px;margin-bottom:34px;font-size:16px;
+}
+.mod-body h3{font-size:14px;color:var(--gold-bright);letter-spacing:0.06em;margin:38px 0 14px;padding-top:2px;}
+.mod-body h3:first-of-type{margin-top:0;}
+.mod-body h4{
+  font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:0.04em;text-transform:none;
+  color:var(--paper);margin:22px 0 10px;font-weight:600;
+}
+.mod-body p{color:#DCD6C8;margin:0 0 14px;}
+.mod-body p:last-child{margin-bottom:0;}
+
+/* verdict pairs (wrong / right single lines) */
+.verdict-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 22px;}
+@media (max-width:720px){.verdict-pair{grid-template-columns:1fr;}}
+.verdict{border-radius:8px;padding:16px 18px;border:1px solid var(--line);background:var(--bg-elev-2);}
+.verdict.wrong{border-left:3px solid var(--rust-bright);}
+.verdict.right{border-left:3px solid var(--green-bright);}
+.verdict .tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;
+  display:block;margin-bottom:8px;
+}
+.verdict.wrong .tag{color:var(--rust-bright);}
+.verdict.right .tag{color:var(--green-bright);}
+.verdict p{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--paper);line-height:1.6;margin:0;}
+
+/* exchange (dialogue) */
+.exchange{
+  border:1px solid var(--line);border-radius:8px;background:var(--bg-elev-2);
+  padding:18px 20px;margin:16px 0 8px;
+}
+.exchange .line{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;}
+.exchange .line:last-of-type{margin-bottom:0;}
+.exchange .who{
+  flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.08em;
+  text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-top:2px;
+}
+.exchange .line.customer .who{color:var(--paper-dim);border:1px solid var(--line-strong);}
+.exchange .line.agent .who{color:#14181C;background:var(--gold-bright);}
+.exchange .line p{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--paper);margin:0;line-height:1.6;}
+.exchange .note{
+  font-family:'Source Serif 4',serif;font-style:italic;color:var(--paper-dim);font-size:14px;
+  margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--line);
+}
+.case-title{
+  font-family:'Oswald',sans-serif;font-size:14px;color:var(--gold-bright);
+  margin:26px 0 8px;text-transform:none;font-weight:600;
+}
+
+/* generic lists */
+.mod-body ul{margin:10px 0 20px;padding:0;list-style:none;}
+.mod-body ul li{
+  position:relative;padding-left:26px;margin-bottom:10px;color:#DCD6C8;
+}
+.mod-body ul.plain li::before{content:"—";position:absolute;left:0;color:var(--gold);}
+.mod-body ul.pos li::before{content:"✓";position:absolute;left:0;color:var(--green-bright);font-family:'JetBrains Mono',monospace;}
+.mod-body ul.neg li::before{content:"✕";position:absolute;left:0;color:var(--rust-bright);font-family:'JetBrains Mono',monospace;}
+.mod-body ol{margin:10px 0 20px;padding-left:22px;color:#DCD6C8;}
+.mod-body ol li{margin-bottom:8px;padding-left:6px;}
+.mod-body ul li b, .mod-body ol li b{color:var(--paper);}
+
+/* table */
+.table-wrap{overflow-x:auto;margin:18px 0 24px;border:1px solid var(--line);border-radius:8px;}
+table.data-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+table.data-table th{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--gold-bright);text-align:left;padding:12px 16px;background:var(--bg-elev-2);
+  border-bottom:1px solid var(--line-strong);
+}
+table.data-table td{padding:13px 16px;border-bottom:1px solid var(--line);color:#DCD6C8;vertical-align:top;}
+table.data-table tr:last-child td{border-bottom:none;}
+
+/* price tag */
+.price-demo{
+  display:flex;align-items:baseline;gap:14px;margin:14px 0 22px;
+  font-family:'Oswald',sans-serif;
+}
+.price-old{color:var(--paper-dim);text-decoration:line-through;font-size:16px;}
+.price-new{color:var(--gold-bright);font-size:30px;font-weight:700;}
+.price-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--rust-bright);text-transform:uppercase;letter-spacing:0.06em;}
+
+/* callout / formula */
+.formula{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold-bright);
+  background:var(--bg-elev-2);border:1px solid var(--line-strong);border-radius:8px;
+  padding:16px 20px;margin:18px 0 24px;
+}
+.formula span{color:var(--paper-dim);}
+
+/* task box */
+.task-box{
+  margin-top:32px;
+  border:1px solid var(--gold);border-radius:10px;
+  background:linear-gradient(135deg, rgba(200,155,60,0.08), rgba(200,155,60,0.02));
+  padding:22px 24px;
+}
+.task-box .task-label{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--gold-bright);display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.task-box .task-label::before{content:"";width:16px;height:1px;background:var(--gold-bright);}
+.task-box p{color:var(--paper);margin:0;font-size:15.5px;}
+
+@media (max-width:720px){
+  .mod-body{padding:6px 20px 32px 20px;}
+  .mod-num{width:44px;font-size:28px;}
+}
+
+/* ---------- footer ---------- */
+.site-footer{
+  border-top:1px solid var(--line);padding:48px 0 60px;margin-top:70px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
+}
+.site-footer .f-brand{font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:0.1em;color:var(--paper);}
+.site-footer .f-sub{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--paper-dim);margin-top:4px;letter-spacing:0.04em;}
+.site-footer .f-right{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper-dim);text-align:right;}
+
+/* ---------- responsive layout ---------- */
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;}
+  .side-nav{
+    position:fixed;top:0;left:0;height:100vh;width:280px;z-index:60;
+    background:#12161A;transform:translateX(-100%);transition:transform .25s ease;
+    padding-top:90px;border-right:1px solid var(--line-strong);
+  }
+  .side-nav.open{transform:translateX(0);}
+  .menu-btn{display:block;}
+  .hero{grid-template-columns:1fr;}
+  .gauge-wrap{order:-1;}
+}
+.nav-scrim{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:55;
+}
+.nav-scrim.open{display:block;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+  <div class="brand">
+    <div class="brand-mark">M</div>
+    <div class="brand-text">
+      <b>MITAL ACADEMY</b>
+      <span>B2C Savdo Ustaxonasi</span>
+    </div>
+  </div>
+  <div class="topbar-progress">
+    <span id="topProgressLabel">00 / 08 MODUL</span>
+  </div>
+</div>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="layout">
+
+  <nav class="side-nav" id="sideNav">
+    <div class="side-nav-title">Kurs xaritasi</div>
+    <a class="nav-item active" data-target="m1"><span class="nav-num">01</span><span class="nav-label">B2C savdo asoslari va mijoz psixologiyasi</span></a>
+    <a class="nav-item" data-target="m2"><span class="nav-num">02</span><span class="nav-label">Mijoz bilan birinchi kontakt</span></a>
+    <a class="nav-item" data-target="m3"><span class="nav-num">03</span><span class="nav-label">Moy va mahsulot bo'yicha ekspert maslahat</span></a>
+    <a class="nav-item" data-target="m4"><span class="nav-num">04</span><span class="nav-label">Vitrina, do'kon va birinchi taassurot</span></a>
+    <a class="nav-item" data-target="m5"><span class="nav-num">05</span><span class="nav-label">Qo'shimcha sotish va cross-sell texnikalari</span></a>
+    <a class="nav-item" data-target="m6"><span class="nav-num">06</span><span class="nav-label">E'tirozlar bilan ishlash</span></a>
+    <a class="nav-item" data-target="m7"><span class="nav-num">07</span><span class="nav-label">Bitimni yakunlash</span></a>
+    <a class="nav-item" data-target="m8"><span class="nav-num">08</span><span class="nav-label">Mijozni ushlab qolish va sodiqlik</span></a>
+  </nav>
+
+  <main class="main">
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Mital Online Sales Academy</div>
+        <h1>Har bir savol — <em>ishonch</em><br>qozonish imkoniyati.</h1>
+        <p class="hero-lede">Moy-xona va do'kon agentlari uchun B2C savdo bo'yicha 8 modulli amaliy kurs: mijoz psixologiyasidan tortib, bitimni yakunlash va sodiqlikni saqlashgacha — real skript va dialoglar bilan.</p>
+        <div class="hero-stats">
+          <div class="stat"><b>8</b><span>Modul</span></div>
+          <div class="stat"><b>40+</b><span>Real skript</span></div>
+          <div class="stat"><b>1</b><span>Amaliy topshiriq / modul</span></div>
+        </div>
+        <a href="#m1" class="hero-cta">Kursni boshlash →</a>
+      </div>
+      <div class="gauge-wrap">
+        <svg class="gauge" viewBox="0 0 300 180" fill="none">
+          <path d="M20 160 A130 130 0 0 1 280 160" stroke="rgba(237,231,217,0.12)" stroke-width="14" stroke-linecap="round"/>
+          <path id="gaugeArc" d="M20 160 A130 130 0 0 1 280 160" stroke="#C89B3C" stroke-width="14" stroke-linecap="round"
+                stroke-dasharray="408" stroke-dashoffset="408"/>
+          <g id="gaugeNeedle" style="transform-origin:150px 160px; transform:rotate(-90deg); transition:transform .4s ease;">
+            <line x1="150" y1="160" x2="150" y2="55" stroke="#EDE7D9" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="150" cy="160" r="8" fill="#EDE7D9"/>
+          </g>
+          <text x="40" y="176" fill="#B9B2A0" font-family="JetBrains Mono" font-size="10">01</text>
+          <text x="252" y="176" fill="#B9B2A0" font-family="JetBrains Mono" font-size="10">08</text>
+        </svg>
+        <div class="gauge-readout">
+          <span class="num" id="gaugeNum">0</span>
+          <div class="lbl">O'qilgan modul</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modules">
+
+      <!-- MODULE 1 -->
+      <details class="module" id="m1" open>
+        <summary>
+          <div class="mod-num">01</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 01</div><h2>B2C savdo asoslari va mijoz psixologiyasi</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent B2B va B2C sotuv o'rtasidagi farqni tushunadi va real vaziyatlarda qanday gapirishni o'rganadi.</p>
+
+          <h3>1.1 — B2C va B2B farqi (qisqa)</h3>
+          <p>B2B'da siz do'kon egasiga foyda va marja haqida gapirasiz. B2C'da mijoz — oddiy avtomobil egasi, u ko'pincha moy haqida hech narsa bilmaydi va hissiyot bilan qaror qiladi. Sizning vazifangiz — ishonch uyg'otish, chalkashtirmaslik.</p>
+          <h4>Misol — noto'g'ri va to'g'ri gapirish</h4>
+          <div class="verdict-pair">
+            <div class="verdict wrong"><span class="tag">✕ Noto'g'ri (texnik, sovuq)</span><p>"Bizda 5W-30 API SN klassidagi sintetik moy bor, viskozitet indeksi yuqori."</p></div>
+            <div class="verdict right"><span class="tag">✓ To'g'ri (oddiy, tushunarli)</span><p>"Sizning mashinangiz uchun eng mos moy bor — qishda ham, yozda ham dvigatelni yaxshi himoya qiladi. Necha yillik mashina, qancha yurgan?"</p></div>
+          </div>
+
+          <h3>1.2 — Mijozning 5 bosqichi: har biriga skript</h3>
+
+          <div class="case-title">1) Ehtiyoj bosqichi — mijoz hali qaror qilmagan, faqat kirib ko'rmoqda</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Salom, moy qarab qo'yaymi..."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Xush kelibsiz! Qanday mashina, oxirgi marta qachon moy almashtirgansiz?"</p></div>
+            <p class="note">Savol bilan boshlash — bosim qilmaslik.</p>
+          </div>
+
+          <div class="case-title">2–3) Qidiruv / Baholash bosqichi — solishtiryapti</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Bu qancha turadi? Boshqa do'konda arzonroq ko'rdim."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Tushunarli, narxni solishtirish to'g'ri. Farqi shundaki, bizniki original, sertifikatlangan — soxta moy dvigatelni 2–3 yilda ishdan chiqarishi mumkin. Kafolat ham beramiz."</p></div>
+            <p class="note">Narxni emas — qiymatni tushuntirish.</p>
+          </div>
+
+          <div class="case-title">4) Xarid qarori — eng muhim moment</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Xo'p, roziman, lekin..." (ikkilanmoqda)</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Juda to'g'ri tanlov. Hoziroq o'ramanmi, yoki savollaringiz bormi?"</p></div>
+            <p class="note">Ortiqcha gapirmang — ikkilanishni kuchaytirmang, aniq harakatga taklif qiling.</p>
+          </div>
+
+          <div class="case-title">5) Xariddan keyin</div>
+          <div class="exchange">
+            <div class="line agent"><span class="who">Siz</span><p>"Mana kvitansiya, muammo bo'lsa qo'ng'iroq qiling. 5000 km'dan keyin yana kutib qolamiz!"</p></div>
+            <p class="note">Keyingi xaridga ko'prik qurish.</p>
+          </div>
+
+          <h3>1.3 — Mijoz turlari: har biriga dialog namunasi</h3>
+
+          <div class="case-title">Tez qaror qiluvchi</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Menga eng yaxshisidan bering, vaqtim yo'q."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Mana bu — eng ko'p sotiladigan, ishonchli variant."</p></div>
+            <p class="note">Uzoq tushuntirmang, tezda taklif bering.</p>
+          </div>
+
+          <div class="case-title">Shubhali / ehtiyotkor</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Bu original ekaniga qanday ishonchim komil bo'lsin?"</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Savolingiz juda to'g'ri. Mana QR-kod, skanerlab tekshirib ko'ring — ishlab chiqaruvchi saytida chiqadi."</p></div>
+            <p class="note">Dalil bilan javob bering, xafa bo'lmang.</p>
+          </div>
+
+          <div class="case-title">Bilimdon mijoz</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Bu moyning HTHS ko'rsatkichi qancha?"</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Zo'r savol — texnik hujjatni ko'rsataman, aniq raqamlar bilan."</p></div>
+            <p class="note">Bilmasangiz — "hozir tekshirib beraman" deng, o'ylab topmang.</p>
+          </div>
+
+          <div class="case-title">Faqat narx bo'yicha keladigan</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Eng arzonini bering."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Bor, mana bu — narxi mos, sifati ham yomon emas. Lekin agar mashinangiz yangi bo'lsa, biroz qo'shib bu variantni oling — uzoq muddatda tejaysiz."</p></div>
+            <p class="note">Arzonini bering, lekin muqobilni ham ko'rsating.</p>
+          </div>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Ikki kishilik guruhda: har bir mijoz turi (4 ta) uchun 1 daqiqalik dialog o'ynang — 1 kishi mijoz, 1 kishi sotuvchi, keyin rol almashing. Trener yoki guruh sherigi baho beradi: bosim qildingizmi, savol berdingizmi, qiymatni tushuntirdingizmi?</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 2 -->
+      <details class="module" id="m2">
+        <summary>
+          <div class="mod-num">02</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 02</div><h2>Mijoz bilan birinchi kontakt</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent mijoz do'konga kirgan zahoti to'g'ri ohangda, bosimsiz muloqotni boshlashni o'rganadi. Birinchi 10–15 soniya butun sotuvni hal qiladi.</p>
+
+          <h3>2.1 — Nega birinchi kontakt shunchalik muhim?</h3>
+          <p>Mijoz do'konga kirganda ongsiz ravishda darhol qaror qiladi: "bu yerda menga yordam berishadimi yoki majburlashadimi?" Noto'g'ri boshlangan kontakt mijozni "faqat qarab chiqaman" deb chiqib ketishga majbur qiladi, hatto u haqiqatan ham xarid qilishga kelgan bo'lsa ham.</p>
+
+          <h3>2.2 — Eng katta xato: darhol sotishga urinish</h3>
+          <div class="verdict-pair">
+            <div class="verdict wrong"><span class="tag">✕ Noto'g'ri</span><p>"Assalomu alaykum! Bizda eng yaxshi moylar bor, chegirma ham bor, ana bu — premium seriya!"</p></div>
+            <div class="verdict right"><span class="tag">✓ To'g'ri</span><p>"Assalomu alaykum, xush kelibsiz! Nima kerak bo'lib qoldi?"</p></div>
+          </div>
+          <p>Birinchi holat mijozni qo'rqitadi — u hali savol bermagan, siz allaqachon sotyapsiz. Ikkinchisi ochiq, bosimsiz savol — mijozga nafas olish imkonini beradi.</p>
+
+          <h3>2.3 — Salomlashish skriptlari: vaziyatga qarab</h3>
+
+          <div class="case-title">Mijoz aniq maqsad bilan kirgan</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Salom, 5W-40 moy bormi?"</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Bor albatta! Qaysi mashina uchun — men mos hajmi va turini tanlab beraman."</p></div>
+            <p class="note">Darhol savolga javob + qo'shimcha savol bilan suhbatni davom ettirish.</p>
+          </div>
+
+          <div class="case-title">Mijoz shunchaki qarab yuripti</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>(javob bermay, javonlarni ko'zdan kechiryapti)</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Xohlasangiz yordam beraman, xohlasangiz o'zingiz qarab chiqing — kerak bo'lsa chaqiring."</p></div>
+            <p class="note">Keyin ortga chekilib, bosim qilmang.</p>
+          </div>
+
+          <div class="case-title">Mijoz ikkilanayotgan ko'rinadi</div>
+          <div class="exchange">
+            <div class="line agent"><span class="who">Siz</span><p>"Mashinangiz qaysi va necha yildan beri ishlatasiz? Shunga qarab tavsiya beraman."</p></div>
+            <p class="note">Savol orqali suhbatni ochib, ehtiyojni aniqlash.</p>
+          </div>
+
+          <h3>2.4 — Ovoz ohangi va tana tili</h3>
+          <p>Yozma bo'lmasa ham muhim:</p>
+          <ul class="plain">
+            <li><b>Tabassum bilan salomlashing</b> — ovozda ham sezilib turadi.</li>
+            <li><b>Shoshilmang</b> — tez-tez gapirish "sotmoqchi" degan taassurot qoldiradi.</li>
+            <li><b>Ko'z aloqasi</b> — mijozga qarab gapiring, telefon yoki boshqa ishga chalg'imang.</li>
+            <li><b>Masofa</b> — mijozga juda yaqin turmang, shaxsiy hududini hurmat qiling.</li>
+          </ul>
+
+          <h3>2.5 — Ehtiyojni ochuvchi 4 ta asosiy savol</h3>
+          <ol>
+            <li>"Qaysi mashina, qaysi yili chiqqan?"</li>
+            <li>"Necha ming km yurgan / oxirgi moy almashtirilganiga qancha bo'ldi?"</li>
+            <li>"Ko'proq shahar ichida yuraysizmi yoki yo'lda ham?"</li>
+            <li>"Avval qanday moy ishlatgan edingiz?"</li>
+          </ol>
+          <p>Bu savollar mijozga "menga chin dildan yordam berishmoqchi" degan tuyg'u beradi, shu bilan birga siz to'g'ri mahsulotni tanlash uchun kerakli ma'lumotni olasiz (bu 3-modulda batafsil ishlatiladi).</p>
+
+          <h3>2.6 — Nima qilmaslik kerak</h3>
+          <ul class="neg">
+            <li>Mijoz kirishi bilan darhol narx yoki chegirma haqida gapirish.</li>
+            <li>"Sizga nima kerak?" deb qo'pol so'rash (juda rasmiy va sovuq eshitiladi).</li>
+            <li>Bir vaqtning o'zida bir nechta mahsulotni ko'rsatib, mijozni chalkashtirish.</li>
+            <li>Mijoz javob bermaguncha unga yopishib olish.</li>
+          </ul>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Juftlikda 3 xil kirish stsenariysini o'ynang: (1) aniq maqsad bilan kelgan mijoz, (2) shunchaki qarab yurgan mijoz, (3) ikkilanayotgan mijoz. Har birida to'g'ri salomlashish + kamida 2 ta ochiq savol ishlatilishi kerak. Sherigi baho beradi: bosim bo'ldimi, savollar tabiiy chiqdimi?</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 3 -->
+      <details class="module" id="m3">
+        <summary>
+          <div class="mod-num">03</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 03</div><h2>Moy va mahsulot bo'yicha ekspert maslahat</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent 2-modulda olingan ma'lumot (mashina turi, yurgan masofasi, foydalanish sharoiti) asosida to'g'ri moyni tanlab, buni mijozga oddiy va ishonchli tilda tushuntirishni o'rganadi.</p>
+
+          <h3>3.1 — Asosiy qoida: texnik tilni oddiy tilga o'girish</h3>
+          <p>Mijoz SAE, API, ACEA kabi belgilarni bilmaydi va bilishni ham xohlamaydi. Sizning vazifangiz — bu belgilarni <b>natija tiliga</b> o'girish.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <tr><th>Texnik atama</th><th>Mijozga qanday tushuntirish kerak</th></tr>
+              <tr><td>SAE 5W-30</td><td>"Qishda ham tez ishga tushadi, yozda ham dvigatelni yaxshi himoya qiladi"</td></tr>
+              <tr><td>API SN / SP</td><td>"Eng zamonaviy standart — dvigatelni cho'kindi va zanglashdan saqlaydi"</td></tr>
+              <tr><td>Sintetik moy</td><td>"Uzoqroq muddat ishlaydi, dvigatelni kamroq eskitadi"</td></tr>
+              <tr><td>Yuqori viskozitet indeksi</td><td>"Harorat o'zgarganda ham xususiyatini yo'qotmaydi"</td></tr>
+            </table>
+          </div>
+
+          <h3>3.2 — Tavsiya berish skripti: 3 qadam</h3>
+          <h4>1-qadam: Olingan ma'lumotni qaytarib tasdiqlash</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Demak, Nexia, 2019 yil, 60 ming km yurgan, ko'proq shaharda — to'g'rimi?"</p></div></div>
+          <h4>2-qadam: Tavsiyani sabab bilan berish</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Unda sizga 5W-30 yarim sintetikani tavsiya qilaman. Sababi — shahar tsiklida mashina tez-tez to'xtab-yuradi, dvigatel ko'proq isinadi, bu moy shu holatda ham yaxshi himoya qiladi."</p></div></div>
+          <h4>3-qadam: Ishonch bilan yakunlash</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Ko'pchilik shu modeldagi mijozlar aynan shuni tanlashadi, natijadan mamnun."</p></div></div>
+
+          <h3>3.3 — Turli mijoz holatlariga misollar</h3>
+
+          <div class="case-title">Eski, ko'p yurgan mashina</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Mashina eski, 200 ming km yurgan."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Bunday holatda mineral yoki yarim sintetika tavsiya qilaman — eski dvigatel uchun ancha mos, chunki qalinroq va tirqishlarni yaxshiroq yopadi. Sintetika bunday mashinada moy sarfini oshirib yuborishi mumkin."</p></div>
+          </div>
+
+          <div class="case-title">Yangi mashina</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Mashina yangi, 2024 yil."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Unda to'liq sintetik moy — ishlab chiqaruvchi tavsiyasiga mos, dvigatel resursi uzoq saqlanadi. Kafolat talablariga ham javob beradi."</p></div>
+          </div>
+
+          <div class="case-title">Mijoz narxni taqqoslayapti</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Nega bu qimmatroq, u yog' ham moy-ku?"</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Tashqi ko'rinishi o'xshash, lekin ichidagi qo'shimchalar (additivlar) farq qiladi — bu moy dvigatelni changdan, zanglashdan qo'shimcha himoya qiladi. Arzon moy qisqa muddatda tejaydi, lekin uzoq muddatda dvigatel ta'miriga ko'proq xarajat chiqarishi mumkin."</p></div>
+          </div>
+
+          <h3>3.4 — Bilmagan savolga qanday javob berish kerak</h3>
+          <p>Agar mijoz juda texnik savol bersa va siz aniq javobni bilmasangiz:</p>
+          <div class="verdict-pair">
+            <div class="verdict wrong"><span class="tag">✕ Noto'g'ri</span><p>O'zingizdan to'qib javob berish.</p></div>
+            <div class="verdict right"><span class="tag">✓ To'g'ri</span><p>"Zo'r savol, aniq raqamni hozir tekshirib beraman" — keyin qadoqdagi ma'lumot yoki katalogdan qarang.</p></div>
+          </div>
+          <p>Bu ishonchni yo'qotmaydi — aksincha, halollik ko'rsatadi.</p>
+
+          <h3>3.5 — Tez-tez uchraydigan mijoz e'tirozlari (qisqa, 6-modulda batafsil)</h3>
+          <ul class="plain">
+            <li>"Hammasi bir xil-ku" → farqni additivlar va sinov natijalari orqali tushuntiring.</li>
+            <li>"Do'stim boshqasini tavsiya qildi" → hurmat bilan, lekin mashinasining aniq holatiga mos tanlovni taklif qiling.</li>
+          </ul>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agentga 3 xil mijoz "profili" beriladi (masalan: 2015 yil Cobalt, 80 ming km, shahar ichida / 2023 yil Malibu, 10 ming km / 2008 yil Nexia, 250 ming km). Har biriga mos moyni tanlab, sabab bilan 1 daqiqada tushuntirish kerak — texnik atamalarsiz, oddiy tilda.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 4 -->
+      <details class="module" id="m4">
+        <summary>
+          <div class="mod-num">04</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 04</div><h2>Vitrina, do'kon va birinchi taassurot</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent do'kon/vitrina ko'rinishining sotuvga qanday ta'sir qilishini tushunadi va o'z ish joyini mijozga ishonch beradigan holatga keltirishni o'rganadi.</p>
+
+          <h3>4.1 — Nega bu muhim?</h3>
+          <p>Mijoz do'konga kirgan birinchi 5 soniyada ongsiz ravishda baho beradi: "bu yerga ishonsam bo'ladimi?" Bu baho sotuvchi og'iz ochmasdan oldin shakllanadi — vitrina tartibsiz, chang bosgan bo'lsa, eng yaxshi sotuv skripti ham yordam bermaydi.</p>
+
+          <h3>4.2 — Vitrina: "jim sotuvchi"</h3>
+          <p>Vitrina sizning so'zsiz sotuvchingiz. U mijozga savol berilmasdan turib javob beradi.</p>
+          <h4>Yaxshi vitrina nima deydi</h4>
+          <ul class="pos">
+            <li>Tartibli, chang yo'q, narxlar ko'rinib turibdi → "Bu yerda hammasi nazoratda".</li>
+            <li>Mashhur/qimmat mahsulotlar ko'z darajasida → "Bu yerda sifatli tovar bor".</li>
+            <li>Kategoriya bo'yicha tartiblangan (sintetik / yarim sintetik / mineral alohida) → "Bu yerda tushunarli, adashib qolmayman".</li>
+          </ul>
+          <h4>Yomon vitrina nima deydi</h4>
+          <ul class="neg">
+            <li>Aralash-quralash, narxsiz qutilar → "Bu yerda tartib yo'q, ishonib bo'lmaydi".</li>
+            <li>Chang, quyosh nuri to'g'ridan-to'g'ri tushib turgan qutilar → "Bu mahsulot eski, sifatsiz bo'lishi mumkin".</li>
+          </ul>
+
+          <h3>4.3 — Amaliy standartlar: do'kon uchun kundalik ro'yxat</h3>
+          <h4>Har kuni ochilishdan oldin</h4>
+          <ul class="plain">
+            <li>Vitrina va javonlarni artib chiqish (chang, iz qoldirmaslik).</li>
+            <li>Mahsulotlarni etiketka tashqariga qaragan holda tekis qo'yish.</li>
+            <li>Narx yorliqlarini tekshirish — hammasi ko'rinib turishi kerak.</li>
+            <li>Eng ko'p so'raladigan / qimmat mahsulotlarni ko'z darajasiga qo'yish.</li>
+          </ul>
+          <h4>Kun davomida</h4>
+          <ul class="plain">
+            <li>Har xaridan keyin joyni tartibga solish.</li>
+            <li>Bo'sh qolgan joylarni to'ldirish (bo'sh javon — "bu mahsulot kam sotiladi" degan taassurot beradi).</li>
+          </ul>
+
+          <h3>4.4 — Sotuvchining tashqi ko'rinishi ham vitrinaning bir qismi</h3>
+          <ul class="plain">
+            <li>Toza, ozoda kiyim — moy dog'lari yo'q.</li>
+            <li>Ishonchli tana tili — qo'llarini cho'ntagiga solmaslik, telefonga tikilib turmaslik.</li>
+            <li>Mijoz kirganda darhol ko'z aloqasi va tabassum (2-modulda batafsil).</li>
+          </ul>
+
+          <h3>4.5 — Narx va aksiya ko'rinishi</h3>
+          <p>Narxlar aniq va yirik shriftda ko'rsatilishi kerak — mijoz narxni so'rab uyalib, jim chiqib ketmasligi uchun. Agar aksiya bo'lsa, eski va yangi narxni yonma-yon ko'rsating — bu ijtimoiy isbot va shoshilinch qaror qilishga turtki beradi (5-modulda chuqurroq ko'rib chiqamiz).</p>
+          <div class="price-demo">
+            <span class="price-old">85 000 so'm</span>
+            <span class="price-new">70 000 so'm</span>
+            <span class="price-note">Faqat shu hafta</span>
+          </div>
+
+          <h3>4.6 — Kichik detallar, katta ta'sir</h3>
+          <ul class="plain">
+            <li>Xushbo'y hid (yoqimsiz moy hidi emas, toza havo).</li>
+            <li>Yorug'lik — yorug' do'kon ishonchliroq ko'rinadi.</li>
+            <li>Katalog / sertifikatlarni ko'rinadigan joyda osib qo'yish — bu 3-modulda aytilgan "ishonch dalili"ni oldindan ta'minlaydi.</li>
+          </ul>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agent o'z do'konining rasmiga qarab (yoki haqiqiy do'konda) 5 ta kamchilikni topsin: tartibsizlik, chang, narxsiz mahsulot, bo'sh javon va h.k. Keyin ularni qanday tuzatish rejasini yozsin (1 haftalik).</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 5 -->
+      <details class="module" id="m5">
+        <summary>
+          <div class="mod-num">05</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 05</div><h2>Qo'shimcha sotish va cross-sell texnikalari</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent bitta oddiy moy sotishni o'rtacha chekka yuqori bo'lgan sotuvga aylantirishni, mijozni majburlamasdan ko'proq xarid qilishga undashni o'rganadi.</p>
+
+          <h3>5.1 — Cross-sell va upsell farqi</h3>
+          <ul class="plain">
+            <li><b>Upsell</b> — mijozga tanlagan mahsulotidan qimmatroq / sifatliroqni taklif qilish (masalan, yarim sintetika o'rniga to'liq sintetika).</li>
+            <li><b>Cross-sell</b> — asosiy mahsulotga qo'shimcha narsa taklif qilish (moy filtri, antifriz, moy tozalash vositasi).</li>
+          </ul>
+
+          <h3>5.2 — Oltin qoida: avval qiymat, keyin narx</h3>
+          <p>Hech qachon "yana buni ham oling" deb to'g'ridan-to'g'ri aytmang. Avval <b>nega kerakligini</b> tushuntiring, keyin taklif qiling.</p>
+          <div class="verdict-pair">
+            <div class="verdict wrong"><span class="tag">✕ Noto'g'ri</span><p>"Filtr ham kerakmi?"</p></div>
+            <div class="verdict right"><span class="tag">✓ To'g'ri</span><p>"Aytgancha, moy bilan birga filtrni ham almashtirish tavsiya etiladi — eski filtr yangi moyni ham tez ifloslantiradi. Sizniki qachon almashtirilgan edi?"</p></div>
+          </div>
+
+          <h3>5.3 — Besh ta qimmat sotish texnikasi</h3>
+
+          <h4>1) "Yaxshi — Yaxshiroq — Eng yaxshi" taqqoslash</h4>
+          <p>Har doim 3 variant ko'rsating, eng qimmatidan boshlang (anchoring effekti — birinchi eshitilgan narx boshqalarni "arzon" qilib ko'rsatadi).</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Sizga uchta variant bor: bu — premium sintetika, dvigatelni maksimal himoya qiladi; bu — o'rtacha, sifat-narx nisbati yaxshi; bu — eng oddiy, byudjetga mos. Qaysi biri sizga qulayroq?"</p></div></div>
+
+          <h4>2) Narxni kichiklashtirish</h4>
+          <p>Narx farqini kunlik/oylik birlikka bo'lib ko'rsating — katta raqam kichik va arzon tuyuladi.</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Farqi atigi 15 000 so'm, lekin bu moy 3 oy o'rniga 6 oy xizmat qiladi — kuniga hisoblasangiz, deyarli bepulga teng."</p></div></div>
+
+          <h4>3) Foyda tiliga o'girish</h4>
+          <p>Texnik xususiyat emas, natijani sotib bering.</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Bu moy bilan siz keyingi almashtirishni 5000 km kechroq qilasiz — bu yiliga bitta almashtirish xarajatini tejaydi."</p></div></div>
+
+          <h4>4) Ijtimoiy isbot</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Bu haftada sizning mashinangiz modeliga o'xshash mijozlarning ko'pchiligi aynan shu premium variantni tanladi — natijadan mamnun bo'lishgan."</p></div></div>
+
+          <h4>5) Taqqoslab ko'rsatish (vizual demo)</h4>
+          <p>Ikki moy namunasini yonma-yon ko'rsating — rangi, qalinligi, hidi farqini jonli ko'rsating.</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Mana ko'ring — bu (arzon) qanday suyuq, bu esa (premium) qanchalik zich va toza. Farqni ko'rib turibsiz."</p></div></div>
+
+          <h3>5.4 — Cross-sell uchun tayyor kombinatsiyalar</h3>
+          <div class="table-wrap">
+            <table class="data-table">
+              <tr><th>Asosiy mahsulot</th><th>Taklif qilinadigan qo'shimcha</th></tr>
+              <tr><td>Motor moyi</td><td>Moy filtri</td></tr>
+              <tr><td>Motor moyi</td><td>Havo filtri (agar 2 yildan beri almashtirilmagan bo'lsa)</td></tr>
+              <tr><td>Sintetik moy</td><td>Dvigatel tozalagich (flush)</td></tr>
+              <tr><td>Har qanday xarid</td><td>Antifriz tekshiruvi (mavsumga qarab)</td></tr>
+            </table>
+          </div>
+
+          <h3>5.5 — Qachon to'xtash kerak: bosim qilmaslik chegarasi</h3>
+          <p>Agar mijoz ikki marta "yo'q, kerak emas" desa — taklifni qaytarmang. Bu ishonchni yo'qotadi.</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Tushunarli, hozircha shu bilan cheklanamiz. Kerak bo'lsa, keyingi safar eslataman."</p></div></div>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agent bitta real mijoz stsenariysida (masalan, "yarim sintetika so'rab kelgan mijoz") 5 ta texnikadan kamida 3 tasini ishlatib, upsell skriptini yozib chiqsin va guruh oldida o'ynab bersin.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 6 -->
+      <details class="module" id="m6">
+        <summary>
+          <div class="mod-num">06</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 06</div><h2>E'tirozlar bilan ishlash</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent mijozning "yo'q", "qimmat", "o'ylab ko'raman" kabi javoblarini sotuvning tugashi emas, balki normal jarayon deb qabul qilishni va ularni professional tarzda yengishni o'rganadi.</p>
+
+          <h3>6.1 — Asosiy printsip: e'tiroz dushman emas</h3>
+          <p>E'tiroz bildirgan mijoz — hali qiziqishi bor mijoz. Agar u umuman qiziqmasa, savol ham bermay, indamay chiqib ketadi. E'tiroz — bu "meni ishontir" degan yashirin so'rov.</p>
+          <div class="formula">Tinglash <span>→</span> Tushunish <span>→</span> Javob berish <span>→</span> Tasdiqlash</div>
+          <p>Noto'g'ri: mijoz gapini tugatmasdan bahslashish. To'g'ri: avval to'liq tinglang, keyin tushunganingizni qaytaring, keyin javob bering.</p>
+
+          <h3>6.2 — Eng ko'p uchraydigan 5 ta e'tiroz</h3>
+
+          <div class="case-title">1) "Qimmat ekan"</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Bu juda qimmat, boshqa joyda arzonroq bor."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Tushunaman, narx muhim albatta. Aytingchi, u yerdagi moy qanday brend edi? Farqi shundaki — bizniki original va kafolatli, soxta moy dvigatelni 2–3 yilda ishdan chiqarishi mumkin. Bir marta qimmatroq to'lab, uzoq muddat tinch yurgan afzalmi, yoki tez-tez ta'mirlashmi — o'zingiz hal qiling."</p></div>
+          </div>
+
+          <div class="case-title">2) "O'ylab ko'raman"</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Xo'p, o'ylab ko'raman."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Albatta, shoshilmang. Faqat aytib qo'yay — sizga qaysi savol hali tushunarsiz qoldi? Balki men yordam bera olarman."</p></div>
+            <p class="note">Bu haqiqiy sababni ochib beradi — ko'pincha bu narx yoki ishonchsizlik.</p>
+          </div>
+
+          <div class="case-title">3) "Do'stim / tanishim boshqa brendni tavsiya qildi"</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Do'stim aytdi, boshqa moy yaxshiroq deb."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Tanishingizning fikri albatta hurmatga loyiq. Lekin har bir mashina holati boshqacha — sizning mashinangiz (yil, km) uchun men aynan shuni tavsiya qilaman, sababi..." (3-modulda o'rgangan sabab bilan tushuntirish)</p></div>
+          </div>
+
+          <div class="case-title">4) "Avval boshqa moy ishlatganman, muammo bo'lmagan"</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Men doim arzonini olaman, hech qachon muammo bo'lmagan."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Bu yaxshi, ehtiyot bo'lganingiz uchun rahmat. Lekin muammolar darhol emas, yillar davomida asta-sekin chiqadi — dvigatel resursi kamayadi. Bir bor sinab ko'ring, farqni his qilasiz."</p></div>
+          </div>
+
+          <div class="case-title">5) "Hozir pulim yo'q / keyinroq kelaman"</div>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"Hozir pulim yetmaydi, keyin kelaman."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Tushunarli. Xohlasangiz, arzonroq variantni ham ko'rsataman — hozircha shuni oling, keyingi safar yaxshiroqqa o'tasiz."</p></div>
+            <p class="note">Bosim qilmang, lekin muqobil taklif qiling.</p>
+          </div>
+
+          <h3>6.3 — Nima qilmaslik kerak</h3>
+          <ul class="neg">
+            <li>Mijoz bilan bahslashish yoki "yo'q, siz noto'g'ri tushunyapsiz" deyish.</li>
+            <li>E'tirozni eshitmaganday davom etish.</li>
+            <li>Darhol chegirma taklif qilish (bu "narx muhokama qilinadi" degan signal beradi).</li>
+            <li>Mijozni past tushuncha bilan ko'rish yoki mensimaslik.</li>
+          </ul>
+
+          <h3>6.4 — Ovoz va tana tili: e'tiroz paytida</h3>
+          <p>Mijoz e'tiroz bildirganda ko'pchilik sotuvchi himoyalanish holatiga o'tadi — ovozi ko'tariladi yoki tez gapira boshlaydi. Aksincha qiling: sekinlashing, tinch ohangda gapiring. Bu mijozga "men bahslashmayapman, yordam bermoqchiman" degan signal beradi.</p>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agentga 3 ta e'tiroz beriladi (masalan: "qimmat", "o'ylab ko'raman", "boshqa joyda ko'proq ko'rdim"). Har biriga tinglash–tushunish–javob formulasi bo'yicha javob yozib, sherigi bilan o'ynab ko'rsin. Trener baho beradi: bahslashdimi yoki tinchgina yo'naltirdimi?</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 7 -->
+      <details class="module" id="m7">
+        <summary>
+          <div class="mod-num">07</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 07</div><h2>Bitimni yakunlash</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent mijoz tayyor bo'lgan paytni tanib olishni va sotuvni tabiiy, bosimsiz tarzda yakunlashni o'rganadi. Ko'p sotuvlar aynan shu bosqichda — noaniqlik yoki noqulay jimlik tufayli — barbod bo'ladi.</p>
+
+          <h3>7.1 — Nega yakunlash qiyin bo'ladi?</h3>
+          <p>Ko'pchilik agent mijoz "roziman" deb aytishini kutadi, lekin haqiqiy hayotda mijozlar buni kam aytishadi. Ular signal beradi — so'zsiz yoki yarim so'z bilan. Agentning vazifasi shu signalni ushlab, harakatga o'tishdir.</p>
+
+          <h3>7.2 — Xarid tayyorligi signallari</h3>
+          <h4>Og'zaki signallar</h4>
+          <ul class="plain">
+            <li>"Bu qanchaga tushadi?" (umumiy narxni so'rash)</li>
+            <li>"Qachon tayyor bo'ladi / hoziroq olsam bo'ladimi?"</li>
+            <li>"Karta bilan to'lasa bo'ladimi?"</li>
+            <li>Mahsulotni qo'liga olib qayta-qayta ko'rish</li>
+          </ul>
+          <h4>Jismoniy signallar</h4>
+          <ul class="plain">
+            <li>Hamyon yoki telefonni chiqarish</li>
+            <li>Boshini tasdiqlab qimirlatish</li>
+            <li>Savol berishni to'xtatib, sizga tikilib turish</li>
+          </ul>
+          <p>Bu signallarni ko'rgan zahoti — ortiqcha gapirmang. Ko'p agentlar shu yerda xato qiladi: mijoz allaqachon tayyor bo'lsa ham, davom etib gapiraveradi va mijozni yana ikkilantiradi.</p>
+
+          <h3>7.3 — Yakunlash texnikalari</h3>
+          <h4>1) To'g'ridan-to'g'ri taklif</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Unda shu variantni o'rayapmanmi?"</p></div></div>
+          <h4>2) Alternativ savol (ikkita "ha" orasida tanlash)</h4>
+          <div class="exchange">
+            <div class="line agent"><span class="who">Siz</span><p>"Naqd to'laysizmi yoki kartami?"</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"5 litrmi yoki 4 litr olsak yetarlimi?"</p></div>
+            <p class="note">Mijoz "olamanmi-yo'qmi" emas, "qaysi birini" deb o'ylaydi — bu psixologik jihatdan yakunlashni osonlashtiradi.</p>
+          </div>
+          <h4>3) Yig'ma xulosa bilan yakunlash</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Demak, sizga 5W-30 sintetika, filtr bilan birga — jami shuncha bo'ladi. Tayyorlab beraymi?"</p></div></div>
+          <h4>4) Shoshilinch / cheklangan taklif (agar rost bo'lsa)</h4>
+          <div class="exchange">
+            <div class="line agent"><span class="who">Siz</span><p>"Aytgancha, bu aksiya faqat shu haftaga, keyin odatdagi narxga qaytadi."</p></div>
+            <p class="note">Faqat haqiqat bo'lsa ishlating — yolg'on shoshilinchlik ishonchni butunlay yo'qotadi.</p>
+          </div>
+
+          <h3>7.4 — Agar mijoz hali ikkilanayotgan bo'lsa</h3>
+          <p>Bosim qilmang, lekin oxirgi bir marta yordam bering:</p>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Sizni nima to'xtatyapti — narxmi yoki hali ishonchingiz komil emasmi? Aytsangiz, aniqlashtirib beraman."</p></div></div>
+          <p>Bu savol yashirin e'tirozni ochib beradi (6-modulga qaytish kerak bo'lishi mumkin).</p>
+
+          <h3>7.5 — Nima qilmaslik kerak</h3>
+          <ul class="neg">
+            <li>Mijoz tayyor bo'lgandan keyin ham davom etib gapiraverish (ortiqcha ma'lumot ikkilantiradi).</li>
+            <li>"Olasizmi yoki yo'qmi?" deb to'g'ridan-to'g'ri qo'pol so'rash.</li>
+            <li>Jimlikdan qo'rqib, o'zingiz narxni tushirib yuborish.</li>
+            <li>Mijoz pul chiqarayotganda yana yangi mahsulot taklif qilib chalg'itish.</li>
+          </ul>
+
+          <h3>7.6 — Jimlik kuchi</h3>
+          <p>Taklif qilgandan keyin (masalan, "o'rayapmanmi?") — jim turing. Birinchi gapirgan odam ko'pincha yutqazadi. Mijozga javob berish uchun vaqt bering, o'zingiz gapni to'ldirmang.</p>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agent 3 xil holatni o'ynasin: (1) mijoz aniq signal berib turibdi, (2) mijoz hali ikkilanmoqda, (3) mijoz narx haqida so'nggi savol beryapti. Har birida mos yakunlash texnikasini qo'llash kerak. Sherigi baho beradi: bosim bo'ldimi yoki tabiiy chiqdimi?</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- MODULE 8 -->
+      <details class="module" id="m8">
+        <summary>
+          <div class="mod-num">08</div>
+          <div class="mod-heading"><div class="mod-kicker">Modul 08</div><h2>Mijozni ushlab qolish va sodiqlik</h2></div>
+          <div class="mod-toggle">+</div>
+        </summary>
+        <div class="mod-body">
+          <p class="mod-goal">Agent bitta xaridni bir martalik tranzaksiya emas, uzoq muddatli mijoz munosabati sifatida ko'rishni o'rganadi. Yangi mijoz topish eskisini saqlashdan doim qimmatroq va qiyinroq.</p>
+
+          <h3>8.1 — Nega sodiq mijoz shunchalik qimmatli?</h3>
+          <p>Sodiq mijoz — bu faqat qaytib keladigan mijoz emas, balki bepul reklama ham. U tanishlariga tavsiya qiladi, salbiy sharhga kam beriladi, narxga kamroq e'tiroz bildiradi (chunki ishonch allaqachon bor). Bitta yo'qotilgan mijoz — bu faqat bitta emas, balki uning butun atrofidagi potensial mijozlar yo'qotilishi degani.</p>
+
+          <h3>8.2 — Xariddan keyingi 60 soniya</h3>
+          <p>Ko'p sotuvchi pulni olib, kvitansiyani berib, "rahmat" deydi-yu, shu bilan tugaydi. Aslida aynan shu daqiqada sodiqlik boshlanadi.</p>
+          <div class="verdict-pair">
+            <div class="verdict wrong"><span class="tag">✕ Noto'g'ri (sovuq, mexanik)</span><p>"Mana kvitansiya, rahmat."</p></div>
+            <div class="verdict right"><span class="tag">✓ To'g'ri</span><p>"Mana kvitansiya. Moyni taxminan 5000 km'dan keyin yoki 4–5 oyda almashtirish tavsiya etiladi — shunda eslab qolish uchun telefon raqamingizni yozib qo'yaymi, o'zim eslataman?"</p></div>
+          </div>
+          <p>Bu bir vaqtning o'zida uchta ishni qiladi: g'amxo'rlik ko'rsatadi, keyingi xaridga asos yaratadi, va mijoz bazasini shakllantiradi.</p>
+
+          <h3>8.3 — Mijoz bazasini yuritish</h3>
+          <p>Har bir mijoz uchun quyidagilarni eslab qolish yoki yozib qo'yish foydali:</p>
+          <ul class="plain">
+            <li>Ism, telefon raqami (agar mijoz rozi bo'lsa)</li>
+            <li>Mashina modeli va yili</li>
+            <li>Oxirgi xarid sanasi va qaysi moy olingani</li>
+            <li>Keyingi almashtirish taxminiy sanasi</li>
+          </ul>
+          <p>Bu ma'lumot bilan siz mijozga shaxsiylashtirilgan xizmat ko'rsata olasiz — bu katta do'konlar bilan raqobatlashishning eng kuchli qurolingiz.</p>
+
+          <h3>8.4 — Qaytarib chaqirish (follow-up) skriptlari</h3>
+          <h4>Moy almashtirish vaqti kelganda (SMS / qo'ng'iroq)</h4>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Assalomu alaykum, [ism]! Nexia'ngiz uchun moy almashtirish vaqti yaqinlashdi (taxminan 5000 km bo'ldi). Kelsangiz, sizni kutib qolamiz."</p></div></div>
+          <h4>Xarid qilmagan mijozga qayta murojaat</h4>
+          <div class="exchange">
+            <div class="line agent"><span class="who">Siz</span><p>"Assalomu alaykum, o'tgan safar kelib, hali qaror qilmagan edingiz. Yordam kerak bo'lsa, savollaringiz bo'lsa, doim shu yerdaman."</p></div>
+            <p class="note">Bosim emas, eshik ochiq qoldirish.</p>
+          </div>
+
+          <h3>8.5 — Kichik g'amxo'rlik detallari</h3>
+          <ul class="plain">
+            <li>Mijozni ismi bilan chaqirish (agar bilsangiz).</li>
+            <li>Uning avvalgi xaridini eslab qolish: "Oxirgi safar Cobalt uchun olgandingiz, endi ham o'shami?"</li>
+            <li>Yomon ob-havo yoki bayram kunlarida qisqa tabrik/eslatma yuborish.</li>
+            <li>Shikoyat bo'lsa, tezkor va halol javob berish (shikoyatni to'g'ri hal qilish ko'pincha mijozni yanada sodiqroq qiladi).</li>
+          </ul>
+
+          <h3>8.6 — Shikoyat bilan ishlash</h3>
+          <div class="exchange">
+            <div class="line customer"><span class="who">Mijoz</span><p>"O'tgan safar olgan moyim yaxshi emas ekan."</p></div>
+            <div class="line agent"><span class="who">Siz</span><p>"Uzr so'rayman, buni albatta hal qilamiz. Aytingchi, aniq nima bo'ldi? Keling, tekshirib ko'ramiz va sizga to'g'ri yechim topamiz."</p></div>
+          </div>
+          <p>Hech qachon mijozni ayblamang yoki "to'g'ri ishlatmagansiz" deb bahslashmang — bu munosabatni butunlay yo'qotadi.</p>
+
+          <h3>8.7 — Og'zaki reklama (referral) so'rash</h3>
+          <div class="exchange"><div class="line agent"><span class="who">Siz</span><p>"Mamnun bo'lsangiz, tanishlaringizga ham aytib qo'ying — ular ham kelsa, xursand bo'lamiz."</p></div></div>
+
+          <div class="task-box">
+            <div class="task-label">Amaliy topshiriq</div>
+            <p>Har bir agent o'zining haqiqiy 3 ta doimiy mijozini (yoki tasavvuriy) tanlab, ular uchun oddiy jadval tuzsin: ism, mashina, oxirgi xarid sanasi, keyingi eslatma sanasi. Keyin bittasiga follow-up SMS matnini yozib chiqsin.</p>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <footer class="site-footer">
+      <div>
+        <div class="f-brand">MITAL ONLINE SALES ACADEMY</div>
+        <div class="f-sub">B2C SAVDO USTAXONASI — FARG'ONA VODIYSI</div>
+      </div>
+      <div class="f-right">MITANOL · LIMAN OIL · MATTEX · DELPIN · ECO FILTER</div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+const modules = Array.from(document.querySelectorAll('details.module'));
+const navItems = Array.from(document.querySelectorAll('.nav-item'));
+const gaugeNeedle = document.getElementById('gaugeNeedle');
+const gaugeArc = document.getElementById('gaugeArc');
+const gaugeNum = document.getElementById('gaugeNum');
+const topProgressLabel = document.getElementById('topProgressLabel');
+
+navItems.forEach(item=>{
+  item.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const id = item.getAttribute('data-target');
+    const target = document.getElementById(id);
+    target.setAttribute('open','');
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+    closeMobileNav();
+  });
+});
+
+const READ_KEY = 'mitalAcademyReadModules';
+function loadReadModules(){
+  try{
+    const raw = localStorage.getItem(READ_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  }catch(e){ return new Set(); }
+}
+function saveReadModules(set){
+  try{ localStorage.setItem(READ_KEY, JSON.stringify(Array.from(set))); }catch(e){}
+}
+let readModules = loadReadModules();
+
+function updateGauge(){
+  const total = 8;
+  const count = readModules.size;
+  const pct = Math.max(0, Math.min(1, count/total));
+  const angle = -90 + pct*180;
+  gaugeNeedle.style.transform = `rotate(${angle}deg)`;
+  const dash = 408 * pct;
+  gaugeArc.style.strokeDashoffset = 408 - dash;
+  gaugeNum.textContent = count;
+  topProgressLabel.textContent = String(count).padStart(2,'0') + ' / 08 MODUL';
+}
+
+modules.forEach(m=>{
+  if(readModules.has(m.id)) m.setAttribute('open','');
+  if(m.hasAttribute('open')) readModules.add(m.id);
+  m.addEventListener('toggle', ()=>{
+    if(m.hasAttribute('open')){
+      readModules.add(m.id);
+      saveReadModules(readModules);
+      updateGauge();
+    }
+  });
+});
+saveReadModules(readModules);
+updateGauge();
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const id = entry.target.id;
+    const navEl = navItems.find(n=>n.getAttribute('data-target')===id);
+    if(!navEl) return;
+    if(entry.isIntersecting){
+      navItems.forEach(n=>n.classList.remove('active'));
+      navEl.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px', threshold:0});
+modules.forEach(m=>observer.observe(m));
+
+const menuBtn = document.getElementById('menuBtn');
+const sideNav = document.getElementById('sideNav');
+const navScrim = document.getElementById('navScrim');
+function closeMobileNav(){
+  sideNav.classList.remove('open');
+  navScrim.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+menuBtn.addEventListener('click', ()=>{
+  const isOpen = sideNav.classList.toggle('open');
+  navScrim.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', String(isOpen));
+});
+navScrim.addEventListener('click', closeMobileNav);
+</script>
+</body>
+</html>
